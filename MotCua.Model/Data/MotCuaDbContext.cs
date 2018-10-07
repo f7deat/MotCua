@@ -9,7 +9,14 @@ namespace MotCua.Model.Data
         {
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<Group> Groups { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Faculty> Faculties { get; set; }
+        public DbSet<Request> Requests { get; set; }
+        public DbSet<Attach> Attaches { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

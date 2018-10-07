@@ -8,7 +8,7 @@ namespace MotCua.Repository.Infrastructure
 {
     public abstract class BaseRepository<T> : IRepository<T> where T : class
     {
-        private readonly MotCuaDbContext _dbContext;
+        protected readonly MotCuaDbContext _dbContext;
 
         public BaseRepository(MotCuaDbContext dbContext)
         {

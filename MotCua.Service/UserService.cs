@@ -14,6 +14,7 @@ namespace MotCua.Service
         IQueryable<User> FindBy(Expression<Func<User, bool>> predicate);
         IQueryable<User> GetAll();
         User GetById(int id);
+        bool Login(int userId, string password);
     }
     public class UserService : IUserService
     {
@@ -45,6 +46,11 @@ namespace MotCua.Service
         public User GetById(int id)
         {
             return userRepository.GetById(id);
+        }
+
+        public bool Login(int userId, string password)
+        {
+            return userRepository.Login(userId, password);
         }
 
         public bool Update(User user)

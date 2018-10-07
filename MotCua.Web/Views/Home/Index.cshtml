@@ -1,31 +1,117 @@
-﻿@{
+﻿@model MotCua.Web.Models.LoginViewModel
+@{
     ViewBag.Title = "Home Page";
+    Layout = null;
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta charset="utf-8" />
+    <title>Webarch - Responsive Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <!-- BEGIN PLUGIN CSS -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="~/Content/animate.min.css" rel="stylesheet" />
+    <!-- END PLUGIN CSS -->
+    <!-- BEGIN CORE CSS FRAMEWORK -->
+    <link href="~/Content/webarch.css" rel="stylesheet" />
+    <!-- END CORE CSS FRAMEWORK -->
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="error-body no-top lazy">
+    <div class="container">
+        <div class="row login-container animated fadeInUp">
+            <div class="col-md-7 col-md-offset-2 tiles white no-padding">
+                <div class="p-t-30 p-l-40 p-b-20 xs-p-t-10 xs-p-l-10 xs-p-b-10">
+                    <h2 class="normal">
+                        Đăng nhập hệ thống Một Cửa
+                    </h2>
+                    <div role="tablist">
+                        <a href="#tab_login" class="btn btn-primary btn-cons" role="tab" data-toggle="tab">Đăng nhập</a> or&nbsp;&nbsp;
+                        <a href="#tab_register" class="btn btn-info btn-cons" role="tab" data-toggle="tab">Đăng ký</a>
+                    </div>
+                </div>
+                <div class="tiles grey p-t-20 p-b-20 no-margin text-black tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="tab_login">
+                        <form class="animated fadeIn validate" method="post" action="/Home/Index">
+                            <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" id="login_username" name="UserId" placeholder="ID" required>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" id="login_pass" name="Password" placeholder="Mật khẩu" type="password" required>
+                                </div>
+                            </div>
+                            <div class="row p-t-10 m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+                                <div class="control-group col-md-10">
+                                    <div class="checkbox checkbox check-success">
+                                        <a href="#">Không thể đăng nhập?</a>&nbsp;&nbsp;
+                                        <input id="checkbox1" type="checkbox" value="1">
+                                        <label for="checkbox1">Giữ tôi đăng nhập</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-10 m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+                                <div class="control-group col-md-10">
+                                    <button class="btn btn-success" type="submit">Đăng nhập</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="tab_register">
+                        <form class="animated fadeIn validate" id="" name="">
+                            <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" id="reg_username" name="reg_username" placeholder="Username" type="text" required>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" id="reg_pass" name="reg_pass" placeholder="Password" type="password" required>
+                                </div>
+                            </div>
+                            <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+                                <div class="col-md-12">
+                                    <input class="form-control" id="reg_mail" name="reg_mail" placeholder="Mailing Address" type="email" required>
+                                </div>
+                            </div>
+                            <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" id="reg_first_Name" name="reg_first_Name" placeholder="First Name" type="text" required>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" id="reg_first_Name" name="reg_first_Name" placeholder="Last Name" type="text" required>
+                                </div>
+                            </div>
+                            <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+                                <div class="col-md-12">
+                                    <input class="form-control" id="reg_email" name="reg_email" placeholder="Email" type="email" required>
+                                </div>
+                            </div>
+                            <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+                                <div class="col-md-12">
+                                    <button class="btn btn-success btn-block" type="submit">Đăng Ký</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+    <!-- END CONTAINER -->
+    <!-- BEGIN JS DEPENDECENCIES-->
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Content/plugins/jquery-numberAnimate/jquery.animateNumbers.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <!-- END CORE JS DEPENDECENCIES-->
+    <!-- BEGIN CORE TEMPLATE JS -->
+    <script src="~/Content/js/webarch.js"></script>
+    <!-- END CORE TEMPLATE JS -->
+</body>
+</html>

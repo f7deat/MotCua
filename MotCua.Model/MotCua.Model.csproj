@@ -48,9 +48,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attach.cs" />
+    <Compile Include="Category.cs" />
     <Compile Include="Data\CreateInitializer.cs" />
     <Compile Include="Data\MotCuaDbContext.cs" />
+    <Compile Include="Department.cs" />
+    <Compile Include="Faculty.cs" />
+    <Compile Include="Group.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
