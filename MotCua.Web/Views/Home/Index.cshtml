@@ -1,4 +1,4 @@
-﻿@model MotCua.Web.Models.LoginViewModel
+﻿@model MotCua.Model.User
 @{
     ViewBag.Title = "Home Page";
     Layout = null;
@@ -39,6 +39,8 @@
                 </div>
                 <div class="tiles grey p-t-20 p-b-20 no-margin text-black tab-content">
                     <div role="tabpanel" class="tab-pane active" id="tab_login">
+                        @TempData["RegisterSuccess"]
+                        @ViewBag.Error
                         <form class="animated fadeIn validate" method="post" action="/Home/Index">
                             <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
                                 <div class="col-md-6 col-sm-6">
@@ -65,31 +67,45 @@
                         </form>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="tab_register">
-                        <form class="animated fadeIn validate" id="" name="">
+                        <form class="animated fadeIn validate" id="" action="/Home/Register" method="post">
+                            <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+                                <div class="col-md-12">
+                                    <input class="form-control" id="ID" type="text" disabled value="ID của bạn: @ViewBag.ID">
+                                </div>
+                            </div>
                             <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
                                 <div class="col-md-6 col-sm-6">
-                                    <input class="form-control" id="reg_username" name="reg_username" placeholder="Username" type="text" required>
+                                    <input class="form-control" id="reg_username" name="FullName" placeholder="Họ và tên" type="text" required>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
-                                    <input class="form-control" id="reg_pass" name="reg_pass" placeholder="Password" type="password" required>
+                                    <input class="form-control" id="reg_pass" name="Password" placeholder="Mật khẩu" type="password" required>
                                 </div>
                             </div>
                             <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
                                 <div class="col-md-12">
-                                    <input class="form-control" id="reg_mail" name="reg_mail" placeholder="Mailing Address" type="email" required>
+                                    <input class="form-control" id="reg_mail" name="Address" placeholder="Địa chỉ" type="text" required>
                                 </div>
                             </div>
                             <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
                                 <div class="col-md-6 col-sm-6">
-                                    <input class="form-control" id="reg_first_Name" name="reg_first_Name" placeholder="First Name" type="text" required>
+                                    <input class="form-control" id="reg_first_Name" name="Email" placeholder="Email" type="email" required>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
-                                    <input class="form-control" id="reg_first_Name" name="reg_first_Name" placeholder="Last Name" type="text" required>
+                                    <input class="form-control" id="reg_first_Name" name="PhoneNumber" placeholder="Số điện thoại" type="tel" required>
                                 </div>
                             </div>
                             <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
                                 <div class="col-md-12">
-                                    <input class="form-control" id="reg_email" name="reg_email" placeholder="Email" type="email" required>
+                                    <input class="form-control" id="reg_email" name="DateOfBirth" type="date" required>
+                                </div>
+                            </div>
+                            <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+                                <div class="col-md-12">
+                                    <select class="form-control" name="Gender">
+                                        <option value="">--Chọn giới tính--</option>
+                                        <option value="true">Nam</option>
+                                        <option value="false">Nữ</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">

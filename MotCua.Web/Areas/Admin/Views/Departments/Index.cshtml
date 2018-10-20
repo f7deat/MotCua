@@ -1,0 +1,54 @@
+﻿@model IEnumerable<MotCua.Model.Department>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="grid simple ">
+            <div class="grid-title no-border">
+                <h4>Phòng - Ban</h4>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"></a>
+                    <a href="#grid-config" data-toggle="modal" class="config"></a>
+                    <a href="javascript:;" class="reload"></a>
+                    <a href="javascript:;" class="remove"></a>
+                </div>
+            </div>
+            <div class="grid-body no-border">
+                <p>
+                    @Html.ActionLink("Tạo mới", "Create", null, new { @class = "btn btn-success" })
+                </p>
+                <table class="table table-bordered no-more-tables">
+                    <thead>
+                        <tr>
+                            <th>Tên phòng ban</th>
+                            <th>Mô tả</th>
+                            <th>Tác vụ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DepartmentName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Edit", "Departments", new { id = item.DepartmentId })" class="btn btn-info btn-small"><i class="fa fa-pencil"></i></a>
+                                    <a href="@Url.Action("Delete", "Departments", new { id = item.DepartmentId })" class="btn btn-danger btn-small"><i class="fa fa-trash"></i></a>
+                                    @*@Html.ActionLink("Details", "Details", new { id = item.DepartmentId }, new { @class = "btn btn-xs btn-info" })*@
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

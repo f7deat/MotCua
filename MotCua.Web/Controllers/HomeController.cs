@@ -1,32 +1,52 @@
-﻿using MotCua.Service;
-using System;
-using System.Collections.Generic;
+﻿using MotCua.Helper.Common;
+using MotCua.Helper.Session;
+using MotCua.Model;
+using MotCua.Service;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
-using MotCua.Web.Models;
 
 namespace MotCua.Web.Controllers
 {
     public class HomeController : Controller
     {
-        IUserService _userService;
+        private IUserService _userService;
         public HomeController(IUserService userService)
         {
             _userService = userService;
         }
         public ActionResult Index()
         {
+            ViewBag.ID = _userService.GetAll().OrderByDescending(x=>x.UserId).Select(x=>x.UserId).FirstOrDefault();
             return View();
         }
 
         [HttpPost]
-        public ActionResult Index(LoginViewModel login)
+        public ActionResult Index(User login)
         {
-            if(_userService.Login(login.UserId, login.Password))
+            int state = _userService.Login(login.UserId, login.Password);
+            if (state == 1)
             {
-                return RedirectToAction("Index", "Dashboards", new { Areas = "Admin" });
+                var user = _userService.GetById(login.UserId);
+                var userSession = new UserSessionModel();
+                userSession.UserId = user.UserId;
+                // chưa làm phần lấy group. mặc định sẽ là admin
+                userSession.Groups = "admin";
+                userSession.FullName = user.FullName;
+                userSession.Image = user.Image;
+
+                Session.Add(Constants.USER_SESSION, userSession);
+
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+            else
+                if (state == 2)
+            {
+                return RedirectToAction("Index", "Dashboards", new { area = "Student" });
+            }
+            else
+            if(state == -2)
+            {
+                ViewBag.Error = "Tài khoản của bạn đang chờ để kích hoạt!";
             }
             else
             {
@@ -35,18 +55,12 @@ namespace MotCua.Web.Controllers
             return View();
         }
 
-        public ActionResult About()
+        [HttpPost]
+        public ActionResult Register(User user)
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            _userService.Add(user);
+            TempData["RegisterSuccess"] = "Đăng ký thành công!";
+            return Redirect("/");
         }
     }
 }

@@ -3991,9 +3991,7 @@ form legend,
   line-height: 0;
 }
 .form-horizontal {
-  display: inline-block;
   margin-right: 10px;
-  position: relative;
   top: -4px;
 }
 .form-horizontal.form-bordered .control-group {
@@ -4009,7 +4007,6 @@ form legend,
 }
 .form-horizontal.form-bordered .control-group .controls {
   padding: 10px;
-  position: relative;
   border-left: 1px solid #eee;
 }
 .form-horizontal.form-bordered .control-group .controls .chosen-container {

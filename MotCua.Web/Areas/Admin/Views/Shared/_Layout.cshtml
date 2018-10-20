@@ -1,9 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var session = (MotCua.Helper.Session.UserSessionModel)Session[MotCua.Helper.Common.Constants.USER_SESSION];
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Hệ thống Một Cửa</title>
     <link href="~/Content/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Content/animate.min.css" rel="stylesheet" />
     <link href="~/Content/plugins/jquery-scrollbar/jquery.scrollbar.css" rel="stylesheet" />
@@ -25,13 +29,13 @@
                     </li>
                 </ul>
                 <!-- BEGIN LOGO -->
-                <a href="index.html">
-                    <img src="assets/img/logo.png" class="logo" alt="" data-src="assets/img/logo.png" data-src-retina="assets/img/logo2x.png" width="106" height="21" />
+                <a href="/Admin/Dashboard">
+                    <b style="font-size: 18px;color: #fff;line-height: 60px;padding-left: 10px;">Hệ thống Một Cửa</b>
                 </a>
                 <!-- END LOGO -->
                 <ul class="nav pull-right notifcation-center">
                     <li class="dropdown hidden-xs hidden-sm">
-                        <a href="index.html" class="dropdown-toggle active" data-toggle="">
+                        <a href="/Admin/Dashboard" class="dropdown-toggle active" data-toggle="">
                             <i class="material-icons">home</i>
                         </a>
                     </li>
@@ -166,83 +170,64 @@
         <div class="page-sidebar " id="main-menu">
             <!-- BEGIN MINI-PROFILE -->
             <div class="page-sidebar-wrapper scrollbar-dynamic" id="main-menu-wrapper">
-                <div class="user-info-wrapper sm">
-                    <div class="profile-wrapper sm">
-                        <img src="assets/img/profiles/avatar.jpg" alt="" data-src="assets/img/profiles/avatar.jpg" data-src-retina="assets/img/profiles/avatar2x.jpg" width="69" height="69" />
-                        <div class="availability-bubble online"></div>
-                    </div>
-                    <div class="user-info sm">
-                        <div class="username">Fred <span class="semi-bold">Smith</span></div>
-                        <div class="status">Life goes on...</div>
-                    </div>
-                </div>
                 <!-- END MINI-PROFILE -->
                 <!-- BEGIN SIDEBAR MENU -->
-                <p class="menu-title sm">BROWSE <span class="pull-right"><a href="javascript:;"><i class="material-icons">refresh</i></a></span></p>
+                <p class="menu-title sm">Danh mục <span class="pull-right"><a href="javascript:;"><i class="material-icons">refresh</i></a></span></p>
                 <ul>
-                    <li class="start active ">
-                        <a href="#"><i class="material-icons">home</i> <span class="title">Link</span> <span class="selected"></span> </a>
+                    <li class="start">
+                        <a href="/Admin/Dashboard"><i class="material-icons">home</i> <span class="title">Bảng tin</span> <span class="selected"></span> </a>
                     </li>
                     <li class="">
-                        <a href="#">
-                            <i class="material-icons">email</i> <span class="title">Link</span> <span class=" badge badge-disable pull-right ">203</span>
+                        <a href="/Admin/RequestDetails">
+                            <i class="material-icons">email</i> <span class="title">Chi tiết yêu cầu</span>
                         </a>
                     </li>
                     <li class="">
-                        <a href="javascript:;"> <i class="material-icons">more_horiz</i> <span class="title">Link</span> <span class=" arrow"></span> </a>
-                        <ul class="sub-menu">
-                            <li> <a href="javascript:;"> Level 1 </a> </li>
-                            <li>
-                                <a href="javascript:;"> <span class="title">Level 2</span> <span class=" arrow"></span> </a>
-                                <ul class="sub-menu">
-                                    <li> <a href="javascript:;"> Sub Menu </a> </li>
-                                    <li> <a href="ujavascript:;"> Sub Menu </a> </li>
-                                </ul>
-                            </li>
-                        </ul>
+                        <a href="#">
+                            <i class="material-icons">email</i> <span class="title">Ban giám hiệ</span>
+                        </a>
                     </li>
-                    <li class="hidden-lg hidden-md hidden-xs" id="more-widgets">
-                        <a href="javascript:;"> <i class="material-icons"></i></a>
-                        <ul class="sub-menu">
-                            <li class="side-bar-widgets">
-                                <p class="menu-title sm">FOLDER <span class="pull-right"><a href="#" class="create-folder"><i class="material-icons">add</i></a></span></p>
-                                <ul class="folders">
-                                    <li>
-                                        <a href="#">
-                                            <div class="status-icon green"></div>
-                                            My quick tasks
-                                        </a>
-                                    </li>
-                                </ul>
-                                <p class="menu-title">PROJECTS </p>
-                                <div class="status-widget">
-                                    <div class="status-widget-wrapper">
-                                        <div class="title">Freelancer<a href="#" class="remove-widget"><i class="material-icons">close</i></a></div>
-                                        <p>Redesign home page</p>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
+                    <li class="">
+                        <a href="#">
+                            <i class="material-icons">email</i> <span class="title">Phòng CT-HSSV</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#">
+                            <i class="material-icons">email</i> <span class="title">Phòng Đào tạo</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#">
+                            <i class="material-icons">email</i> <span class="title">Phòng Khảo thí - ĐBCL</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#">
+                            <i class="material-icons">email</i> <span class="title">Phòng Kế hoạch - Tài chính</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#">
+                            <i class="material-icons">email</i> <span class="title">Phòng Hành chính - Quản trị</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#">
+                            <i class="material-icons">email</i> <span class="title">Đoàn thanh niên</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#">
+                            <i class="material-icons">email</i> <span class="title">Khoa Viện</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#">
+                            <i class="material-icons">email</i> <span class="title">Người dùng</span>
+                        </a>
                     </li>
                 </ul>
-                <div class="side-bar-widgets">
-                    <p class="menu-title sm">FOLDER <span class="pull-right"><a href="#" class="create-folder"> <i class="material-icons">add</i></a></span></p>
-                    <ul class="folders">
-                        <li>
-                            <a href="#">
-                                <div class="status-icon green"></div>
-                                My quick tasks
-                            </a>
-                        </li>
-                    </ul>
-                    <p class="menu-title">PROJECTS </p>
-                    <div class="status-widget">
-                        <div class="status-widget-wrapper">
-                            <div class="title">Freelancer<a href="#" class="remove-widget"><i class="material-icons">close</i></a></div>
-                            <p>Redesign home page</p>
-                        </div>
-                    </div>
-                </div>
                 <div class="clearfix"></div>
                 <!-- END SIDEBAR MENU -->
             </div>
@@ -453,8 +438,8 @@
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Content/plugins/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Content/plugins/jquery-numberAnimate/jquery.animateNumbers.min.js"></script>
-    <script src="~/Scripts/jquery.validate.js"></script>
     <script src="~/Content/js/webarch.js"></script>
     @RenderSection("scripts", required: false)
 </body>

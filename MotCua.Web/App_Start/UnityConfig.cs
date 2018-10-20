@@ -45,6 +45,8 @@ namespace MotCua.Web
             // TODO: Register your type's mappings here.
             container.RegisterType<IUserRepository, UserRepository>();
             container.RegisterType<IUserService, UserService>();
+            container.RegisterType<IDepartmentRepository, DepartmentRepository>();
+            container.RegisterType<IDepartmentService, DepartmentService>();
         }
     }
 }

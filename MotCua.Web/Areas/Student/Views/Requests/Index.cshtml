@@ -1,0 +1,92 @@
+﻿@model MotCua.Model.Request
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Student/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="grid simple ">
+            <div class="grid-title no-border">
+                <h4>Gửi yêu cầu</h4>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"></a>
+                    <a href="#grid-config" data-toggle="modal" class="config"></a>
+                    <a href="javascript:;" class="reload"></a>
+                    <a href="javascript:;" class="remove"></a>
+                </div>
+            </div>
+            <div class="grid-body no-border">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label" })
+                            <div class="">
+                                <textarea id="Content" name="Content"></textarea>
+                                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        @*<div class="form-group">
+                                @Html.LabelFor(model => model.DepartmentId, "DepartmentId", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("DepartmentId", null, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>*@
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DateRequired, htmlAttributes: new { @class = "control-label" })
+                            <div class="">
+                                @Html.EditorFor(model => model.DateRequired, new { htmlAttributes = new { @class = "form-control" , @type = "date"} })
+                                @Html.ValidationMessageFor(model => model.DateRequired, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        @*<div class="form-group">
+                                @Html.LabelFor(model => model.CategoryId, "CategoryId", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>*@
+
+                    <div class="form-group">
+                        <label class="control-label">Tệp tin đính kèm</label>
+                        <div class="row p-r-15">
+                            <div class="col-md-11">
+                                <input type="text" class="form-control" disabled />
+                            </div>
+                            <div class="col-md-1">
+                                <button type="button" class="btn btn-success btn-cons"><i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;<span class="bold">Upload</span></button>
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="form-group">
+                            <div class="">
+                                <input type="submit" value="Gửi" class="btn btn-primary" />
+                                <a href="/Student/Dashboards" class="btn btn-dark">Hủy</a>
+                            </div>
+                        </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+<script src="~/Content/plugins/ckeditor/ckeditor.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            CKEDITOR.replace('Content');
+        });
+    </script>
+}
