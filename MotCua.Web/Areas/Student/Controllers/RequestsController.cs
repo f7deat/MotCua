@@ -1,13 +1,16 @@
-﻿using MotCua.Model;
+﻿using MotCua.Helper;
+using MotCua.Model;
 using MotCua.Service;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
 namespace MotCua.Web.Areas.Student.Controllers
 {
+    [CustomAuthorize(Roles = "student")]
     public class RequestsController : Controller
     {
         private const string V = "Gửi yêu cầu thất bại!";
@@ -43,5 +46,20 @@ namespace MotCua.Web.Areas.Student.Controllers
             }
             return Redirect("/Student/Dashboards");
         }
+
+        [HttpPost]
+        public JsonResult Upload(HttpPostedFileBase Attach)
+        {
+            if (Attach != null && Attach.ContentLength > 0)
+            {
+                // extract only the filename
+                var fileName = Path.GetFileName(Attach.FileName);
+                // store the file inside ~/App_Data/uploads folder
+                var path = Path.Combine(Server.MapPath("~/Content/files/"), fileName);
+                Attach.SaveAs(path);
+            }
+            return Json(Attach.FileName, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

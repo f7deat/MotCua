@@ -1,6 +1,6 @@
-﻿
+﻿@model IEnumerable<MotCua.Model.Request>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Yêu cầu";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -105,27 +105,28 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <div class="checkbox check-default">
-                                    <input id="checkbox21" type="checkbox" value="1">
-                                    <label for="checkbox21"></label>
-                                </div>
-                            </td>
-                            <td class="text-center">January</td>
-                            <td class="text-center">January</td>
-                            <td class="text-center">January</td>
-                            <td class="text-center">January</td>
-                            <td class="text-center">January</td>
-                            <td class="text-center">January</td>
-                            <td class="text-center">January</td>
-                            <td class="text-center">January</td>
-                            <td class="text-center">January</td>
-                            <td class="text-right">$ 50,000.00</td>
-                            <td class="text-center">
-                                <div class="customer-sparkline" data-sparkline-color="#0aa699" data-sparkline-type="bar"><canvas width="34" height="15" style="display: inline-block; width: 34px; height: 15px; vertical-align: top;"></canvas></div>
-                            </td>
-                        </tr>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="checkbox check-default">
+                                        <input id="checkbox21" type="checkbox" value="1">
+                                        <label for="checkbox21"></label>
+                                    </div>
+                                </td>
+                                <td class="text-center">January</td>
+                                <td class="text-center">January</td>
+                                <td class="text-center">January</td>
+                                <td class="text-center">January</td>
+                                <td class="text-center">January</td>
+                                <td class="text-center">January</td>
+                                <td class="text-center">January</td>
+                                <td class="text-center">January</td>
+                                <td class="text-center">January</td>
+                                <td class="text-right">$ 50,000.00</td>
+                                <td class="text-center"></td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>

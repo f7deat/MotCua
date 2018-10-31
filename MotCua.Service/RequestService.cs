@@ -45,7 +45,7 @@ namespace MotCua.Service
 
         public IQueryable<Request> GetAll()
         {
-            throw new NotImplementedException();
+            return _requestRepository.GetAll();
         }
 
         public Request GetById(int id)

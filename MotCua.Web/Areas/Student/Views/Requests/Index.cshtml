@@ -21,60 +21,63 @@
                 @using (Html.BeginForm())
                 {
                     @Html.AntiForgeryToken()
-                    
 
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label" })
-                            <div class="">
-                                <textarea id="Content" name="Content"></textarea>
-                                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
-                            </div>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label" })
+                        <div class="">
+                            <textarea id="Content" name="Content"></textarea>
+                            @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
                         </div>
+                    </div>
 
-                        @*<div class="form-group">
-                                @Html.LabelFor(model => model.DepartmentId, "DepartmentId", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownList("DepartmentId", null, htmlAttributes: new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
-                                </div>
-                            </div>*@
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.DateRequired, htmlAttributes: new { @class = "control-label" })
-                            <div class="">
-                                @Html.EditorFor(model => model.DateRequired, new { htmlAttributes = new { @class = "form-control" , @type = "date"} })
-                                @Html.ValidationMessageFor(model => model.DateRequired, "", new { @class = "text-danger" })
+                    @*<div class="form-group">
+                            @Html.LabelFor(model => model.DepartmentId, "DepartmentId", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("DepartmentId", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
                             </div>
-                        </div>
+                        </div>*@
 
-                        @*<div class="form-group">
-                                @Html.LabelFor(model => model.CategoryId, "CategoryId", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
-                                </div>
-                            </div>*@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DateRequired, htmlAttributes: new { @class = "control-label" })
+                        <div class="">
+                            @Html.EditorFor(model => model.DateRequired, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                            @Html.ValidationMessageFor(model => model.DateRequired, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @*<div class="form-group">
+                            @Html.LabelFor(model => model.CategoryId, "CategoryId", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
 
                     <div class="form-group">
                         <label class="control-label">Tệp tin đính kèm</label>
                         <div class="row p-r-15">
                             <div class="col-md-11">
-                                <input type="text" class="form-control" disabled />
+                                <input type="file" class="form-control" name="Attach" id="file"/>
+
                             </div>
                             <div class="col-md-1">
-                                <button type="button" class="btn btn-success btn-cons"><i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;<span class="bold">Upload</span></button>
+                                <button type="button" class="btn btn-success btn-cons" id="btnUpload"><i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;<span class="bold">Upload</span></button>
                             </div>
                         </div>
+                        <div class="alert alert-success" id="isUpload"></div>
+                        <div class="text-error" id="status"></div>
                     </div>
 
-                        <div class="form-group">
-                            <div class="">
-                                <input type="submit" value="Gửi" class="btn btn-primary" />
-                                <a href="/Student/Dashboards" class="btn btn-dark">Hủy</a>
-                            </div>
+                    <div class="form-group">
+                        <div class="">
+                            <input type="submit" value="Gửi" class="btn btn-primary" />
+                            <a href="/Student/Dashboards" class="btn btn-dark">Hủy</a>
                         </div>
+                    </div>
                 }
             </div>
         </div>
@@ -82,11 +85,47 @@
 </div>
 
 @section scripts{
-<script src="~/Content/plugins/ckeditor/ckeditor.js"></script>
-
+    <script src="~/Content/plugins/ckeditor/ckeditor.js"></script>
+    <script src="~/Scripts/controller/request.js"></script>
     <script>
         $(document).ready(function () {
             CKEDITOR.replace('Content');
+        });
+    </script>
+    <script>
+        //xử lý khi có sự kiện click
+        $('#btnUpload').on('click', function () {
+            //Lấy ra files
+            var file_data = $('#file').prop('files')[0];
+            //lấy ra kiểu file
+            var type = file_data.type;
+            //Xét kiểu file được upload
+            var match = ["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",];
+            //kiểm tra kiểu file
+            if (type == match[0] || type == match[1] || type == match[2]) {
+                //khởi tạo đối tượng form data
+                var form_data = new FormData();
+                //thêm files vào trong form data
+                form_data.append('Attach', file_data);
+                //sử dụng ajax post
+                $.ajax({
+                    url: '/Student/Requests/Upload', // gửi đến file upload.php
+                    dataType: 'text',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: form_data,
+                    type: 'post',
+                    success: function (res) {
+                        $('#isUpload').append(res + ', ');
+                        $('#file').val('');
+                    }
+                });
+            } else {
+                $('#status').text('Chỉ được upload file PDF, DOC, DOCX');
+                $('#file').val('');
+            }
+            return false;
         });
     </script>
 }

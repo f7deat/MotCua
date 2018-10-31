@@ -23,10 +23,9 @@ namespace MotCua.Web.Controllers
         [HttpPost]
         public ActionResult Index(User login)
         {
-            int state = _userService.Login(login.UserId, login.Password);
+            int state = _userService.Login(login.UserId, login.Password); var user = _userService.GetById(login.UserId);
             if (state == 1)
             {
-                var user = _userService.GetById(login.UserId);
                 var userSession = new UserSessionModel();
                 userSession.UserId = user.UserId;
                 // chưa làm phần lấy group. mặc định sẽ là admin
@@ -41,6 +40,14 @@ namespace MotCua.Web.Controllers
             else
                 if (state == 2)
             {
+                var userSession = new UserSessionModel();
+                userSession.UserId = user.UserId;
+                // chưa làm phần lấy group. mặc định sẽ là admin
+                userSession.Groups = "student";
+                userSession.FullName = user.FullName;
+                userSession.Image = user.Image;
+
+                Session.Add(Constants.USER_SESSION, userSession);
                 return RedirectToAction("Index", "Dashboards", new { area = "Student" });
             }
             else

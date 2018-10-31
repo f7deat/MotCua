@@ -47,6 +47,10 @@ namespace MotCua.Web
             container.RegisterType<IUserService, UserService>();
             container.RegisterType<IDepartmentRepository, DepartmentRepository>();
             container.RegisterType<IDepartmentService, DepartmentService>();
+            container.RegisterType<IRequestRepository, RequestRepository>();
+            container.RegisterType<IRequestService, RequestService>();
+            container.RegisterType<IGroupRepository, GroupRepository>();
+            container.RegisterType<IGroupService, GroupService>();
         }
     }
 }

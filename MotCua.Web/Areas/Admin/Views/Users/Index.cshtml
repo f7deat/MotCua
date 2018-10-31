@@ -1,0 +1,103 @@
+﻿@model IEnumerable<MotCua.Model.User>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="grid simple ">
+            <div class="grid-title no-border">
+                <h4>Người dùng</h4>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"></a>
+                    <a href="#grid-config" data-toggle="modal" class="config"></a>
+                    <a href="javascript:;" class="reload"></a>
+                    <a href="javascript:;" class="remove"></a>
+                </div>
+            </div>
+            <div class="grid-body no-border">
+                <table class="table table-bordered no-more-tables">
+                    <thead>
+                        <tr>
+                            <th style="width:1%">
+                                <div class="checkbox check-default">
+                                    <input id="checkbox20" type="checkbox" value="1" class="checkall">
+                                    <label for="checkbox20"></label>
+                                </div>
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Faculty.FacultyName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Group.GroupName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FullName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DateOfBirth)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Gender)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Status)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="checkbox check-default">
+                                        <input id="checkbox21" type="checkbox" value="1">
+                                        <label for="checkbox21"></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Faculty.FacultyName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Group.GroupName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FullName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DateOfBirth)
+                                </td>
+                                <td>
+                                    @(item.Gender ? "Nam" : "Nữ")
+                                </td>
+                                <td>
+                                    @if (item.Status == true)
+                                    {
+                                        <span class='label label-success'>Kích hoạt</span>
+                                    }
+                                    else if (item.Status == false)
+                                    {
+                                        <span class='label label-danger'>Đang chờ</span>
+                                    }
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.UserId }, new { @class="btn btn-small btn-info" }) 
+                                    @Html.ActionLink("Details", "Details", new { id = item.UserId }, new { @class = "btn btn-small btn-primary" }) 
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.UserId }, new { @class = "btn btn-small btn-danger" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
