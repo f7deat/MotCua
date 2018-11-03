@@ -6,9 +6,9 @@ namespace MotCua.Service.Infrastructure
 {
     public interface IService<T>
     {
-        T Add(T user);
-        bool Delete(T user);
-        bool Update(T user);
+        T Add(T entity);
+        bool Delete(T entity);
+        bool Update(T entity);
         IQueryable<T> FindBy(Expression<Func<T, bool>> predicate);
         IQueryable<T> GetAll();
         T GetById(int id);

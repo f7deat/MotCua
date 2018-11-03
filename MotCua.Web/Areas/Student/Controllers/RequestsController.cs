@@ -1,10 +1,12 @@
 ﻿using MotCua.Helper;
+using MotCua.Helper.Common;
+using MotCua.Helper.Session;
 using MotCua.Model;
 using MotCua.Service;
+using MotCua.Web.Areas.Student.Models;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -16,11 +18,13 @@ namespace MotCua.Web.Areas.Student.Controllers
         private const string V = "Gửi yêu cầu thất bại!";
         private const string V1 = "Gửi yêu cầu thành công!";
         private const string V2 = "RequestStatus";
-        IRequestService _requestService;
+        private IRequestService _requestService;
+        private IAttachService _attachService;
 
-        public RequestsController(IRequestService requestService)
+        public RequestsController(IRequestService requestService, IAttachService attachService)
         {
             _requestService = requestService;
+            _attachService = attachService;
         }
 
         // GET: Student/Requests
@@ -30,14 +34,39 @@ namespace MotCua.Web.Areas.Student.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(Request request)
+        [ValidateInput(false)]
+        public ActionResult Index(RequestViewModel request)
         {
+            UserSessionModel session = (UserSessionModel)Session[Constants.USER_SESSION];
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _requestService.Add(request);
-                    TempData[V2] = V1;
+                    using (TransactionScope tran = new TransactionScope())
+                    {
+                        Request res = _requestService.Add(new Request
+                        {
+                            Content = request.Content,
+                            UserId = session.UserId,
+                            RequestDate = DateTime.Now,
+                            Status = 0
+                        });
+                        if (request.AttachName != null)
+                        {
+                            foreach (string item in request.AttachName)
+                            {
+                                _attachService.Add(new Attach
+                                {
+                                    Path = item,
+                                    DateUpload = DateTime.Now,
+                                    RequestId = res.RequestId
+                                });
+                            }
+                        }
+                        TempData[V2] = V1;
+                        tran.Complete();
+                    }
+
                 }
             }
             catch (Exception)
@@ -53,12 +82,23 @@ namespace MotCua.Web.Areas.Student.Controllers
             if (Attach != null && Attach.ContentLength > 0)
             {
                 // extract only the filename
-                var fileName = Path.GetFileName(Attach.FileName);
+                string fileName = Path.GetFileName(Attach.FileName);
                 // store the file inside ~/App_Data/uploads folder
-                var path = Path.Combine(Server.MapPath("~/Content/files/"), fileName);
+                string path = Path.Combine(Server.MapPath("~/Content/files/"), fileName);
                 Attach.SaveAs(path);
             }
             return Json(Attach.FileName, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult RemoveFile(string fileName)
+        {
+            string fullPath = Request.MapPath("~/Content/files/" + fileName);
+            if (System.IO.File.Exists(fullPath))
+            {
+                System.IO.File.Delete(fullPath);
+            }
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
 
     }

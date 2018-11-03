@@ -58,6 +58,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -189,6 +190,7 @@
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Areas\Student\Controllers\DashboardsController.cs" />
     <Compile Include="Areas\Student\Controllers\RequestsController.cs" />
+    <Compile Include="Areas\Student\Models\RequestViewModel.cs" />
     <Compile Include="Areas\Student\StudentAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -200,6 +202,7 @@
   <ItemGroup>
     <Content Include="Content\animate.min.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\files\index.html" />
     <Content Include="Content\fonts\custom-set.dev.svg" />
     <Content Include="Content\fonts\custom-set.svg" />
     <Content Include="Content\images\noimage.jpg" />
@@ -305,6 +308,27 @@
     <Content Include="Content\plugins\ckeditor\styles.js" />
     <Content Include="Content\plugins\font-awesome\css\font-awesome.min.css" />
     <Content Include="Content\plugins\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\plugins\jquery-notifications\css\location-sel.css" />
+    <Content Include="Content\plugins\jquery-notifications\css\location-sel.min.css" />
+    <Content Include="Content\plugins\jquery-notifications\css\messenger-spinner.css" />
+    <Content Include="Content\plugins\jquery-notifications\css\messenger-spinner.min.css" />
+    <Content Include="Content\plugins\jquery-notifications\css\messenger-theme-air.css" />
+    <Content Include="Content\plugins\jquery-notifications\css\messenger-theme-air.min.css" />
+    <Content Include="Content\plugins\jquery-notifications\css\messenger-theme-block.css" />
+    <Content Include="Content\plugins\jquery-notifications\css\messenger-theme-block.min.css" />
+    <Content Include="Content\plugins\jquery-notifications\css\messenger-theme-flat.css" />
+    <Content Include="Content\plugins\jquery-notifications\css\messenger-theme-flat.min.css" />
+    <Content Include="Content\plugins\jquery-notifications\css\messenger-theme-future.css" />
+    <Content Include="Content\plugins\jquery-notifications\css\messenger-theme-future.min.css" />
+    <Content Include="Content\plugins\jquery-notifications\css\messenger-theme-ice.css" />
+    <Content Include="Content\plugins\jquery-notifications\css\messenger-theme-ice.min.css" />
+    <Content Include="Content\plugins\jquery-notifications\css\messenger.css" />
+    <Content Include="Content\plugins\jquery-notifications\css\messenger.min.css" />
+    <Content Include="Content\plugins\jquery-notifications\js\messenger-theme-flat.js" />
+    <Content Include="Content\plugins\jquery-notifications\js\messenger-theme-flat.min.js" />
+    <Content Include="Content\plugins\jquery-notifications\js\messenger-theme-future.js" />
+    <Content Include="Content\plugins\jquery-notifications\js\messenger-theme-future.min.js" />
+    <Content Include="Content\plugins\jquery-notifications\js\messenger.min.js" />
     <Content Include="Content\plugins\jquery-numberAnimate\jquery.animateNumbers.min.js" />
     <Content Include="Content\plugins\jquery-scrollbar\jquery.scrollbar.css" />
     <Content Include="Content\plugins\jquery-scrollbar\jquery.scrollbar.min.js" />
@@ -355,6 +379,7 @@
     <Content Include="Areas\Admin\Views\Groups\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Groups\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Groups\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\controller\request.js" />
     <Content Include="Scripts\jquery-1.11.3.min.js" />
@@ -380,8 +405,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Student\Models\" />
-    <Folder Include="Content\files\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
