@@ -55,6 +55,12 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -188,6 +194,8 @@
     <Compile Include="Areas\Admin\Controllers\GroupsController.cs" />
     <Compile Include="Areas\Admin\Controllers\RequestDetailsController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
+    <Compile Include="Areas\Admin\Models\AttachViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\RequestDetailsViewModel.cs" />
     <Compile Include="Areas\Student\Controllers\DashboardsController.cs" />
     <Compile Include="Areas\Student\Controllers\RequestsController.cs" />
     <Compile Include="Areas\Student\Models\RequestViewModel.cs" />
@@ -201,6 +209,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\animate.min.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\files\index.html" />
     <Content Include="Content\fonts\custom-set.dev.svg" />
@@ -210,6 +219,7 @@
     <Content Include="Content\images\profiles\noimage.jpg" />
     <Content Include="Content\js\charts.js" />
     <Content Include="Content\js\webarch.js" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\plugins\Chartjs\Chart.min.js" />
     <Content Include="Content\plugins\ckeditor\adapters\jquery.js" />
     <Content Include="Content\plugins\ckeditor\build-config.js" />
@@ -308,26 +318,16 @@
     <Content Include="Content\plugins\ckeditor\styles.js" />
     <Content Include="Content\plugins\font-awesome\css\font-awesome.min.css" />
     <Content Include="Content\plugins\font-awesome\fonts\fontawesome-webfont.svg" />
-    <Content Include="Content\plugins\jquery-notifications\css\location-sel.css" />
     <Content Include="Content\plugins\jquery-notifications\css\location-sel.min.css" />
     <Content Include="Content\plugins\jquery-notifications\css\messenger-spinner.css" />
     <Content Include="Content\plugins\jquery-notifications\css\messenger-spinner.min.css" />
-    <Content Include="Content\plugins\jquery-notifications\css\messenger-theme-air.css" />
     <Content Include="Content\plugins\jquery-notifications\css\messenger-theme-air.min.css" />
-    <Content Include="Content\plugins\jquery-notifications\css\messenger-theme-block.css" />
     <Content Include="Content\plugins\jquery-notifications\css\messenger-theme-block.min.css" />
-    <Content Include="Content\plugins\jquery-notifications\css\messenger-theme-flat.css" />
     <Content Include="Content\plugins\jquery-notifications\css\messenger-theme-flat.min.css" />
-    <Content Include="Content\plugins\jquery-notifications\css\messenger-theme-future.css" />
     <Content Include="Content\plugins\jquery-notifications\css\messenger-theme-future.min.css" />
-    <Content Include="Content\plugins\jquery-notifications\css\messenger-theme-ice.css" />
     <Content Include="Content\plugins\jquery-notifications\css\messenger-theme-ice.min.css" />
-    <Content Include="Content\plugins\jquery-notifications\css\messenger.css" />
     <Content Include="Content\plugins\jquery-notifications\css\messenger.min.css" />
-    <Content Include="Content\plugins\jquery-notifications\js\messenger-theme-flat.js" />
     <Content Include="Content\plugins\jquery-notifications\js\messenger-theme-flat.min.js" />
-    <Content Include="Content\plugins\jquery-notifications\js\messenger-theme-future.js" />
-    <Content Include="Content\plugins\jquery-notifications\js\messenger-theme-future.min.js" />
     <Content Include="Content\plugins\jquery-notifications\js\messenger.min.js" />
     <Content Include="Content\plugins\jquery-numberAnimate\jquery.animateNumbers.min.js" />
     <Content Include="Content\plugins\jquery-scrollbar\jquery.scrollbar.css" />
@@ -379,6 +379,9 @@
     <Content Include="Areas\Admin\Views\Groups\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Groups\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Groups\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\QuickStatic.cshtml" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Areas\Admin\Views\RequestDetails\Details.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\controller\request.js" />
@@ -404,7 +407,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

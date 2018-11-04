@@ -17,6 +17,7 @@ namespace MotCua.Service
         IQueryable<Request> FindBy(Expression<Func<Request, bool>> predicate);
         IQueryable<Request> GetAll();
         Request GetById(int id);
+        bool ChangeStatus(int id, int status);
     }
     public class RequestService : IRequestService
     {
@@ -31,6 +32,17 @@ namespace MotCua.Service
             request.RequestDate = DateTime.Now;
             request.Status = 0;
             return _requestRepository.Add(request);
+        }
+
+        public bool ChangeStatus(int id, int status)
+        {
+            var request = _requestRepository.GetById(id);
+            if (request.DateReceived == null)
+            {
+                request.DateReceived = DateTime.Now;
+            }
+            request.Status = status;
+            return _requestRepository.ChangeStatus(id, status);
         }
 
         public bool Delete(Request request)

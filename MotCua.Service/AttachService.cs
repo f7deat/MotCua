@@ -43,7 +43,7 @@ namespace MotCua.Service
 
         public Attach GetById(int id)
         {
-            throw new NotImplementedException();
+            return _attachRepository.GetById(id);
         }
 
         public bool Update(Attach user)

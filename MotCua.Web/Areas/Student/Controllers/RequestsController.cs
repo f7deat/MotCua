@@ -49,7 +49,7 @@ namespace MotCua.Web.Areas.Student.Controllers
                             Content = request.Content,
                             UserId = session.UserId,
                             RequestDate = DateTime.Now,
-                            Status = 0
+                            Status = RequestStatus.Sending
                         });
                         if (request.AttachName != null)
                         {
