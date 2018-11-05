@@ -176,61 +176,8 @@
                 <!-- END MINI-PROFILE -->
                 <!-- BEGIN SIDEBAR MENU -->
                 <p class="menu-title sm">Danh mục <span class="pull-right"><a href="javascript:;"><i class="material-icons">refresh</i></a></span></p>
-                <ul>
-                    <li class="start">
-                        <a href="/Admin/Dashboard"><i class="material-icons">home</i> <span class="title">Bảng tin</span> <span class="selected"></span> </a>
-                    </li>
-                    <li class="">
-                        <a href="/Admin/RequestDetails">
-                            <i class="material-icons">email</i> <span class="title">Chi tiết yêu cầu</span>
-                        </a>
-                    </li>
-                    <li class="">
-                        <a href="#">
-                            <i class="material-icons">email</i> <span class="title">Ban giám hiệ</span>
-                        </a>
-                    </li>
-                    <li class="">
-                        <a href="#">
-                            <i class="material-icons">email</i> <span class="title">Phòng CT-HSSV</span>
-                        </a>
-                    </li>
-                    <li class="">
-                        <a href="#">
-                            <i class="material-icons">email</i> <span class="title">Phòng Đào tạo</span>
-                        </a>
-                    </li>
-                    <li class="">
-                        <a href="#">
-                            <i class="material-icons">email</i> <span class="title">Phòng Khảo thí - ĐBCL</span>
-                        </a>
-                    </li>
-                    <li class="">
-                        <a href="#">
-                            <i class="material-icons">email</i> <span class="title">Phòng Kế hoạch - Tài chính</span>
-                        </a>
-                    </li>
-                    <li class="">
-                        <a href="#">
-                            <i class="material-icons">email</i> <span class="title">Phòng Hành chính - Quản trị</span>
-                        </a>
-                    </li>
-                    <li class="">
-                        <a href="#">
-                            <i class="material-icons">email</i> <span class="title">Đoàn thanh niên</span>
-                        </a>
-                    </li>
-                    <li class="">
-                        <a href="/Admin/Groups">
-                            <i class="material-icons">email</i> <span class="title">Khoa Viện</span>
-                        </a>
-                    </li>
-                    <li class="">
-                        <a href="/Admin/Users">
-                            <i class="material-icons">email</i> <span class="title">Người dùng</span>
-                        </a>
-                    </li>
-                </ul>
+
+                @{Html.RenderAction("Sidebar", "Dashboard", null);}
                 <div class="clearfix"></div>
                 <!-- END SIDEBAR MENU -->
             </div>

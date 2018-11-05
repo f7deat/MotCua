@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Student/Views/Shared/_Layout.cshtml";
+    var ListDepartments = (IEnumerable<MotCua.Model.Department>)ViewBag.ListDepartments;
 }
 <link href="~/Content/plugins/jquery-notifications/css/messenger.min.css" rel="stylesheet" />
 <link href="~/Content/plugins/jquery-notifications/css/messenger-theme-flat.css" rel="stylesheet" />
@@ -34,13 +35,17 @@
                         </div>
                     </div>
 
-                    @*<div class="form-group">
-                            @Html.LabelFor(model => model.DepartmentId, "DepartmentId", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.DropDownList("DepartmentId", null, htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
-                            </div>
-                        </div>*@
+                    <div class="form-group">
+                        <label class="control-label" for="DepartmentId">Khoa viện <i>(tùy chọn)</i></label>
+                            <select name="DepartmentId" class="form-control">
+                                <option value="">-Chọn-</option>
+                                @foreach (var item in ListDepartments)
+                                {
+                                    <option value="@item.DepartmentId">@item.DepartmentName</option>
+                                }
+                            </select>
+                            @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+                    </div>
 
                     @*<div class="form-group">
                             @Html.LabelFor(model => model.DateRequired, htmlAttributes: new { @class = "control-label" })

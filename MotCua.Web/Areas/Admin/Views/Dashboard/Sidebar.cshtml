@@ -1,0 +1,30 @@
+﻿@model IEnumerable<MotCua.Model.Department>
+
+<ul>
+    <li class="start">
+        <a href="/Admin/Dashboard"><i class="material-icons">home</i> <span class="title">Bảng tin</span> <span class="selected"></span> </a>
+    </li>
+    <li class="">
+        <a href="/Admin/RequestDetails">
+            <i class="material-icons">email</i> <span class="title">Chi tiết yêu cầu</span>
+        </a>
+    </li>
+    @foreach (var item in Model)
+    {
+        <li>
+            <a href="#">
+                <i class="material-icons">email</i> <span class="title">@item.DepartmentName</span>
+            </a>
+        </li>
+    }
+    <li class="">
+        <a href="/Admin/Departments">
+            <i class="material-icons">email</i> <span class="title">Khoa Viện</span>
+        </a>
+    </li>
+    <li class="">
+        <a href="/Admin/Users">
+            <i class="material-icons">email</i> <span class="title">Người dùng</span>
+        </a>
+    </li>
+</ul>

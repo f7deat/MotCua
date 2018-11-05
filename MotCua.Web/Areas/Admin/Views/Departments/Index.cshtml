@@ -19,7 +19,7 @@
             </div>
             <div class="grid-body no-border">
                 <p>
-                    @Html.ActionLink("Tạo mới", "Create", null, new { @class = "btn btn-success" })
+                    <button class="btn btn-success" data-toggle="modal" data-target="#myModal" data-whatever="0">Thêm mới</button>
                 </p>
                 <table class="table table-bordered no-more-tables">
                     <thead>
@@ -40,9 +40,9 @@
                                     @Html.DisplayFor(modelItem => item.Description)
                                 </td>
                                 <td>
-                                    <a href="@Url.Action("Edit", "Departments", new { id = item.DepartmentId })" class="btn btn-info btn-small"><i class="fa fa-pencil"></i></a>
+                                    <button class="btn btn-info btn-small" data-toggle="modal" data-target="#myModal" data-whatever="@item.DepartmentId" data-departmentname="@item.DepartmentName" data-description="@item.Description"><i class="fa fa-pencil"></i></button>
+                                    @*<a href="@Url.Action("Edit", "Departments", new { id = item.DepartmentId })" class="btn btn-info btn-small"><i class="fa fa-pencil"></i></a>*@
                                     <a href="@Url.Action("Delete", "Departments", new { id = item.DepartmentId })" class="btn btn-danger btn-small"><i class="fa fa-trash"></i></a>
-                                    @*@Html.ActionLink("Details", "Details", new { id = item.DepartmentId }, new { @class = "btn btn-xs btn-info" })*@
                                 </td>
                             </tr>
                         }
@@ -52,3 +52,53 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <form action="/Admin/Departments/CreateOrUpdate" method="post">
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="row form-row">
+                        <div class="col-md-12">
+                            <input type="hidden" id="DepartmentId" name="DepartmentId" />
+                            <input type="text" class="form-control" placeholder="Tên khoa, viện" name="DepartmentName" id="DepartmentName" required />
+                            <textarea placeholder="Mô tả" name="Description" class="form-control" id="Description" required></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+@section scripts {
+    <script>
+        $('#myModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var recipient = button.data('whatever');
+            var departmentName = button.data('departmentname');
+            var description = button.data('description');
+            var modal = $(this);
+            if (departmentName === "" && description === "") {
+
+            }
+            else {
+                modal.find('#DepartmentName').val(departmentName);
+                modal.find('#Description').val(description);
+            }
+            modal.find('#DepartmentId').val(recipient);
+        });
+    </script>
+}

@@ -353,10 +353,7 @@
     <Content Include="Content\plugins\font-awesome\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\plugins\font-awesome\fonts\fontawesome-webfont.woff2" />
     <Content Include="Content\plugins\font-awesome\fonts\FontAwesome.otf" />
-    <Content Include="Areas\Admin\Views\Departments\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Departments\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\Departments\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\Departments\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Departments\Index.cshtml" />
     <Content Include="Areas\Student\Views\web.config" />
     <Content Include="Areas\Student\Views\Shared\_Layout.cshtml" />
@@ -382,6 +379,7 @@
     <Content Include="Areas\Admin\Views\Dashboard\QuickStatic.cshtml" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Areas\Admin\Views\RequestDetails\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\Sidebar.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\controller\request.js" />

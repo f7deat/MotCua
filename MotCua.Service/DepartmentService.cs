@@ -25,7 +25,7 @@ namespace MotCua.Service
 
         public bool Delete(Department user)
         {
-            throw new NotImplementedException();
+            return _departmentRepository.Delete(user);
         }
 
         public IQueryable<Department> FindBy(Expression<Func<Department, bool>> predicate)
@@ -40,12 +40,12 @@ namespace MotCua.Service
 
         public Department GetById(int id)
         {
-            throw new NotImplementedException();
+            return _departmentRepository.GetById(id);
         }
 
         public bool Update(Department user)
         {
-            throw new NotImplementedException();
+            return _departmentRepository.Update(user);
         }
     }
 }

@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttachRepository.cs" />
+    <Compile Include="CategoryRepository.cs" />
     <Compile Include="DepartmentRepository.cs" />
     <Compile Include="GroupRepository.cs" />
     <Compile Include="Infrastructure\BaseRepository.cs" />

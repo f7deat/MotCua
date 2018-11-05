@@ -20,16 +20,19 @@ namespace MotCua.Web.Areas.Student.Controllers
         private const string V2 = "RequestStatus";
         private IRequestService _requestService;
         private IAttachService _attachService;
+        private IDepartmentService _departmentService;
 
-        public RequestsController(IRequestService requestService, IAttachService attachService)
+        public RequestsController(IRequestService requestService, IAttachService attachService, IDepartmentService departmentService)
         {
             _requestService = requestService;
             _attachService = attachService;
+            _departmentService = departmentService;
         }
 
         // GET: Student/Requests
         public ActionResult Index()
         {
+            ViewBag.ListDepartments = _departmentService.GetAll();
             return View();
         }
 
@@ -49,7 +52,8 @@ namespace MotCua.Web.Areas.Student.Controllers
                             Content = request.Content,
                             UserId = session.UserId,
                             RequestDate = DateTime.Now,
-                            Status = RequestStatus.Sending
+                            Status = RequestStatus.Sending,
+                            DepartmentId = request.DepartmentId
                         });
                         if (request.AttachName != null)
                         {

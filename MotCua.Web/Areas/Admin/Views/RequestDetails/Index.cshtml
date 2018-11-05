@@ -24,6 +24,34 @@
                 </div>
             </div>
             <div class="grid-body no-border">
+
+                <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+                    <div class="col-md-2 col-sm-2">
+                        <select class="form-control">
+                            <option>Đơn vị</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 col-sm-2">
+                        <select class="form-control">
+                            <option>Lĩnh vực</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 col-sm-2">
+                        <select class="form-control">
+                            <option>Trạng thái</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 col-sm-2">
+                        <input class="form-control" id="reg_username" name="reg_username" placeholder="Nội dung" type="text" required="">
+                    </div>
+                    <div class="col-md-2 col-sm-2">
+                        <input class="form-control" id="reg_pass" name="reg_pass" placeholder="Người yêu cầu" type="text" required="">
+                    </div>
+                    <div class="col-md-2 col-sm-2">
+                        <button class="btn btn-success"><i class="fa fa-search"></i> Lọc</button>
+                    </div>
+                </div>
+
                 <table class="table table-bordered no-more-tables">
                     <thead>
                         <tr>
@@ -129,7 +157,7 @@
                                         <a class="btn dropdown-toggle btn-demo-space" data-toggle="dropdown" href="#" aria-expanded="false"> <i class="fa fa-cog fa-spin"></i> <span class="caret"></span> </a>
                                         <ul class="dropdown-menu">
                                             <li><a href="/Admin/RequestDetails/Details/@item.RequestId"><i class="fa fa-folder"></i> Chi tiết</a></li>
-                                            <li><a href="#"><i class="fa fa-trash"></i> Xóa</a></li>
+                                            <li><a href="/Admin/RequestDetails/Delete/@item.RequestId"><i class="fa fa-trash"></i> Xóa</a></li>
                                         </ul>
                                     </div>
                                 </td>
@@ -137,7 +165,7 @@
                         }
                     </tbody>
                 </table>
-                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
             </div>
         </div>
     </div>

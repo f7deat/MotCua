@@ -47,7 +47,7 @@ namespace MotCua.Service
 
         public bool Delete(Request request)
         {
-            throw new NotImplementedException();
+            return _requestRepository.Delete(request);
         }
 
         public IQueryable<Request> FindBy(Expression<Func<Request, bool>> predicate)
@@ -62,7 +62,7 @@ namespace MotCua.Service
 
         public Request GetById(int id)
         {
-            throw new NotImplementedException();
+            return _requestRepository.GetById(id);
         }
 
         public bool Update(Request request)

@@ -1,9 +1,14 @@
-﻿@model IEnumerable<MotCua.Model.Request>
+﻿@model PagedList.IPagedList<MotCua.Model.Request>
+@using PagedList.Mvc;
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Thống kê";
     Layout = "~/Areas/Student/Views/Shared/_Layout.cshtml";
-    var ListAttach = (IEnumerable<MotCua.Model.Attach>)ViewBag.ListAttach;
+    var sending = MotCua.Helper.Common.RequestStatus.Sending;
+    var received = MotCua.Helper.Common.RequestStatus.Received;
+    var processing = MotCua.Helper.Common.RequestStatus.Processing;
+    var success = MotCua.Helper.Common.RequestStatus.Success;
+    var outofdate = MotCua.Helper.Common.RequestStatus.OutOfDate;
 }
 
 <div class="row 2col">
@@ -30,9 +35,9 @@
                     <a href="javascript:;" class="remove"></a>
                 </div>
                 <div class="tiles-title"> Số yêu cầu đã xử lý </div>
-                <div class="heading"> <span class="animate-number" data-value="0" data-animation-duration="1000">0</span> </div>
+                <div class="heading"> <span class="animate-number" data-value="@ViewBag.TotalRequestSuccess" data-animation-duration="1000">@ViewBag.TotalRequestSuccess</span> </div>
                 <div class="progress transparent progress-small no-radius">
-                    <div class="progress-bar progress-bar-white animate-progress-bar" data-percentage="0%"></div>
+                    <div class="progress-bar progress-bar-white animate-progress-bar" data-percentage="100%"></div>
                 </div>
             </div>
         </div>
@@ -45,9 +50,9 @@
                     <a href="javascript:;" class="remove"></a>
                 </div>
                 <div class="tiles-title"> Số yêu cầu đang xử lý </div>
-                <div class="heading"> <span class="animate-number" data-value="0" data-animation-duration="1200">0</span> </div>
+                <div class="heading"> <span class="animate-number" data-value="@ViewBag.TotalRequestProcessing" data-animation-duration="1200">@ViewBag.TotalRequestProcessing</span> </div>
                 <div class="progress transparent progress-white progress-small no-radius">
-                    <div class="progress-bar progress-bar-white animate-progress-bar" data-percentage="0%"></div>
+                    <div class="progress-bar progress-bar-white animate-progress-bar" data-percentage="100%"></div>
                 </div>
             </div>
         </div>
@@ -96,32 +101,49 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                        <tr>
-                            <td>@Html.Raw(item.Content)</td>
-                            <td>@item.RequestDate</td>
-                            <td>
-                                @if (item.Status == 0)
-                                {
-                                    <span class="label label-danger">Đang gửi</span>
-                                }
-                            </td>
-                            <td>
-                                <div class="btn-group">
-                                    <button class="btn btn-small btn-success btn-demo-space"><i class="fa fa-cloud-download"></i></button>
-                                    <button class="btn btn-small btn-success dropdown-toggle btn-demo-space" data-toggle="dropdown"> <span class="caret"></span> </button>
-                                    <ul class="dropdown-menu">
-                                        @foreach (var attach in ListAttach)
-                                        {
+                            <tr>
+                                <td>@Html.Raw(item.Content)</td>
+                                <td>@item.RequestDate</td>
+                                <td>
+                                    @if (item.Status == sending)
+                                    {
+                                        <span class="btn btn-white btn-demo-space btn-small">Đang gửi</span>
+                                    }
+                                    else if (item.Status == received)
+                                    {
+                                        <span class="btn btn-info btn-demo-space btn-small">Đã nhận</span>
+                                    }
+                                    else if (item.Status == processing)
+                                    {
+                                        <span class="btn btn-primary btn-demo-space btn-small">Đang xử lý</span>
+                                    }
+                                    else if (item.Status == success)
+                                    {
+                                        <span class="btn btn-success btn-demo-space btn-small">Đã xử lý</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="btn btn-danger btn-demo-space btn-small">Đã quá hạn</span>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn btn-small btn-success btn-demo-space"><i class="fa fa-cloud-download"></i></button>
+                                        <button class="btn btn-small btn-success dropdown-toggle btn-demo-space" data-toggle="dropdown"> <span class="caret"></span> </button>
+                                        <ul class="dropdown-menu">
+                                            @foreach (var attach in item.Attaches)
+                                            {
 
-                                            <li><a href="~/Content/files/@attach.Path">@attach.Path</a></li>
-                                        }
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
+                                                <li><a href="~/Content/files/@attach.Path">@attach.Path</a></li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
             </div>
         </div>
     </div>

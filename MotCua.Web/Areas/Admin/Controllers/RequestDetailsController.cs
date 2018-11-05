@@ -44,7 +44,15 @@ namespace MotCua.Web.Areas.Admin.Controllers
 
         public ActionResult Details(int id)
         {
-            return View();
+            return View(_requestService.GetById(id));
+        }
+
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            _requestService.Delete(_requestService.GetById(id));
+            TempData["ChangeStatus"] = "Xóa thành công!";
+            return Redirect("/Admin/RequestDetails");
         }
     }
 }

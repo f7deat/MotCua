@@ -13,9 +13,11 @@ namespace MotCua.Web.Areas.Admin.Controllers
     public class DashboardController : Controller
     {
         IRequestService _requestService;
-        public DashboardController(IRequestService requestService)
+        IDepartmentService _departmentService;
+        public DashboardController(IRequestService requestService, IDepartmentService departmentService)
         {
             _requestService = requestService;
+            _departmentService = departmentService;
         }
         // GET: Admin/Dashboard
         public ActionResult Index()
@@ -29,6 +31,11 @@ namespace MotCua.Web.Areas.Admin.Controllers
             ViewBag.TotalRequestSuccess = _requestService.GetAll().Where(x=>x.Status == RequestStatus.Success).Count();
             ViewBag.TotalRequestProcessing = _requestService.GetAll().Where(x => x.Status == RequestStatus.Processing).Count();
             return PartialView();
+        }
+        [ChildActionOnly]
+        public ActionResult Sidebar()
+        {
+            return PartialView(_departmentService.GetAll());
         }
     }
 }
