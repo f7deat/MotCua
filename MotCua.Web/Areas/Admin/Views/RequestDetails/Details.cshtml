@@ -2,6 +2,12 @@
 @{
     ViewBag.Title = "Chi tiết";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var ListDepartments = (IEnumerable<MotCua.Model.Department>)ViewBag.ListDepartments;
+    var sending = MotCua.Helper.Common.RequestStatus.Sending;
+    var received = MotCua.Helper.Common.RequestStatus.Received;
+    var processing = MotCua.Helper.Common.RequestStatus.Processing;
+    var success = MotCua.Helper.Common.RequestStatus.Success;
+    var outofdate = MotCua.Helper.Common.RequestStatus.OutOfDate;
 }
 
 <div class="row">
@@ -78,25 +84,34 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
-            <form action="#" method="post">
+            <form action="/Admin/RequestDetails/UpdateRequest" method="post">
                 @Html.AntiForgeryToken()
                 <div class="modal-body">
                     <div class="row form-row">
                         <div class="col-md-12">
-                            <input type="hidden" id="DepartmentId" name="DepartmentId" />
-                            <input type="text" class="form-control" placeholder="Tên khoa, viện" name="DepartmentName" id="DepartmentName" required />
-                            <textarea placeholder="Mô tả" name="Description" class="form-control" id="Description" required></textarea>
+                            <input type="hidden" name="RequestId" value="@Model.RequestId" />
+                            <label class="control-label">Đơn vị tiếp nhận</label>
+                            <select name="DepartmentId" class="form-control" required>
+                                <option value="">-Chọn-</option>
+                                @foreach (var item in ListDepartments)
+                                {
+                                    <option value="@item.DepartmentId">@item.DepartmentName</option>
+                                }
+                            </select>
+                            <label class="control-label">Ngày hẹn trả</label>
+                            <input type="date" class="form-control" name="DateRequired" required />
+                            <label class="control-label">Trạng thái</label>
                             <div class="radio radio-success">
-                                <input id="yes" type="radio" name="optionyes" value="yes">
+                                <input id="yes" type="radio" name="Status" value="@sending">
                                 <label for="yes">Đang gửi</label>
-                                <input id="no" type="radio" name="optionyes" value="no" checked="checked">
+                                <input id="no" type="radio" name="Status" value="@received">
                                 <label for="no">Đã nhận</label>
-                                <input id="processing" type="radio" name="optionyes" value="processing">
+                                <input id="processing" type="radio" name="Status" value="@processing">
                                 <label for="processing">Đang xử lý</label>
-                            </div>
-                            <div class="input-append success date no-padding">
-                                <input type="text" class="form-control">
-                                <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                <input id="success" type="radio" name="Status" value="@success">
+                                <label for="success">Đã xử lý</label>
+                                <input id="outofdate" type="radio" name="Status" value="@outofdate">
+                                <label for="outofdate">Quá hạn</label>
                             </div>
                         </div>
                     </div>

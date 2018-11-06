@@ -8,6 +8,7 @@
     var processing = MotCua.Helper.Common.RequestStatus.Processing;
     var success = MotCua.Helper.Common.RequestStatus.Success;
     var outofdate = MotCua.Helper.Common.RequestStatus.OutOfDate;
+    var ListDepartments = (IEnumerable<MotCua.Model.Department>)ViewBag.ListDepartments;
 }
 
 @{Html.RenderAction("QuickStatic", "Dashboard", null);}
@@ -28,17 +29,26 @@
                 <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
                     <div class="col-md-2 col-sm-2">
                         <select class="form-control">
-                            <option>Đơn vị</option>
+                            <option value="">Đơn vị</option>
+                            @foreach (var item in ListDepartments)
+                            {
+                                <option value="@item.DepartmentId">@item.DepartmentName</option>
+                            }
                         </select>
                     </div>
                     <div class="col-md-2 col-sm-2">
                         <select class="form-control">
-                            <option>Lĩnh vực</option>
+                            <option value="">Lĩnh vực</option>
                         </select>
                     </div>
                     <div class="col-md-2 col-sm-2">
                         <select class="form-control">
                             <option>Trạng thái</option>
+                            <option value="0">Đang gửi</option>
+                            <option value="1">Đã nhận</option>
+                            <option value="2">Đang xử lý</option>
+                            <option value="@success">Đã xử lý</option>
+                            <option value="@outofdate">Quá hạn</option>
                         </select>
                     </div>
                     <div class="col-md-2 col-sm-2">
@@ -70,7 +80,7 @@
                             <th class="text-center">Ngày hẹn trả</th>
                             <th class="text-center">Trạng thái</th>
                             <th class="text-center">File đính kèm</th>
-                            <th class="text-center">Lĩnh vực</th>
+                            @*<th class="text-center">Lĩnh vực</th>*@
                             <th class="text-center">Tác vụ</th>
                         </tr>
                     </thead>
@@ -151,7 +161,7 @@
                                         </ul>
                                     </div>
                                 </td>
-                                <td class="text-right">@(item?.Category?.CategoryName)</td>
+                                @*<td class="text-right">@(item?.Category?.CategoryName)</td>*@
                                 <td class="text-center">
                                     <div class="btn-group">
                                         <a class="btn dropdown-toggle btn-demo-space" data-toggle="dropdown" href="#" aria-expanded="false"> <i class="fa fa-cog fa-spin"></i> <span class="caret"></span> </a>

@@ -15,17 +15,20 @@ namespace MotCua.Web.Areas.Admin.Controllers
     public class RequestDetailsController : Controller
     {
         IRequestService _requestService;
-        private IAttachService _attachService;
-        public RequestDetailsController(IRequestService requestService, IAttachService attachService)
+        private readonly IAttachService _attachService;
+        private IDepartmentService _departmentService;
+        public RequestDetailsController(IRequestService requestService, IAttachService attachService, IDepartmentService departmentService)
         {
             _requestService = requestService;
             _attachService = attachService;
+            _departmentService = departmentService;
         }
         // GET: Admin/RequestDetails
         public ActionResult Index(int? page)
         {
             int pageSize = 10;
             int pageNumber = (page ?? 1);
+            ViewBag.ListDepartments = _departmentService.GetAll();
             var model = _requestService.GetAll().OrderByDescending(x=>x.RequestDate).ToPagedList(pageNumber, pageSize);
             return View(model);
         }
@@ -44,6 +47,7 @@ namespace MotCua.Web.Areas.Admin.Controllers
 
         public ActionResult Details(int id)
         {
+            ViewBag.ListDepartments = _departmentService.GetAll();
             return View(_requestService.GetById(id));
         }
 
@@ -52,6 +56,14 @@ namespace MotCua.Web.Areas.Admin.Controllers
         {
             _requestService.Delete(_requestService.GetById(id));
             TempData["ChangeStatus"] = "Xóa thành công!";
+            return Redirect("/Admin/RequestDetails");
+        }
+
+        [HttpPost]
+        public ActionResult UpdateRequest(Request request)
+        {
+            _requestService.UpdateRequest(request.RequestId, request.Status, request.DateRequired, request.DepartmentId);
+            TempData["ChangeStatus"] = "Thay đổi thành công!";
             return Redirect("/Admin/RequestDetails");
         }
     }

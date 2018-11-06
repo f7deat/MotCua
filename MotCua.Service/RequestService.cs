@@ -18,6 +18,7 @@ namespace MotCua.Service
         IQueryable<Request> GetAll();
         Request GetById(int id);
         bool ChangeStatus(int id, int status);
+        void UpdateRequest(int id, int? status, DateTime? dateRequired, int? departmentId);
     }
     public class RequestService : IRequestService
     {
@@ -42,7 +43,7 @@ namespace MotCua.Service
                 request.DateReceived = DateTime.Now;
             }
             request.Status = status;
-            return _requestRepository.ChangeStatus(id, status);
+            return _requestRepository.Save();
         }
 
         public bool Delete(Request request)
@@ -67,7 +68,25 @@ namespace MotCua.Service
 
         public bool Update(Request request)
         {
-            throw new NotImplementedException();
+            //var r = GetById(request.RequestId);
+            //request.UserId = r.UserId;
+            //request.Content = r.Content;
+            //request.DateReceived = r.DateReceived;
+            //request.RequestDate = r.RequestDate;
+            return _requestRepository.Update(request);
+        }
+
+        public void UpdateRequest(int id, int? status, DateTime? dateRequired, int? departmentId)
+        {
+            var request = GetById(id);
+            request.Status = status;
+            request.DateRequired = dateRequired;
+            request.DepartmentId = departmentId;
+            if(request.DateReceived == null)
+            {
+                request.DateReceived = DateTime.Now;
+            }
+            _requestRepository.Save();
         }
     }
 }

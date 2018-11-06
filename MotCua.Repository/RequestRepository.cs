@@ -11,7 +11,7 @@ namespace MotCua.Repository
 {
     public interface IRequestRepository : IRepository<Request>
     {
-        bool ChangeStatus(int id, int status);
+        bool Save();
     }
     public class RequestRepository : BaseRepository<Request>, IRequestRepository
     {
@@ -19,7 +19,7 @@ namespace MotCua.Repository
         {
         }
 
-        public bool ChangeStatus(int id, int status)
+        public bool Save()
         {
             return _dbContext.SaveChanges() > 0;
         }
