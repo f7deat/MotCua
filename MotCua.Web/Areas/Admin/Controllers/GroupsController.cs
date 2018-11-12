@@ -1,131 +1,111 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
+﻿using MotCua.Helper;
+using MotCua.Helper.Common;
+using MotCua.Helper.Session;
 using MotCua.Model;
 using MotCua.Model.Data;
 using MotCua.Service;
-using MotCua.Helper;
+using MotCua.Web.Areas.Admin.Models;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace MotCua.Web.Areas.Admin.Controllers
 {
-    [CustomAuthorize(Roles = "admin")]
-    public class GroupsController : Controller
+    public class GroupsController : BaseController
     {
-        IGroupService _groupService;
-        public GroupsController(IGroupService groupService)
+        private IGroupService _groupService;
+        private readonly IDepartmentService _departmentService;
+        private IRoleService _roleService;
+        public GroupsController(IGroupService groupService, IDepartmentService departmentService, IRoleService roleService)
         {
             _groupService = groupService;
+            _departmentService = departmentService;
+            _roleService = roleService;
         }
-        private MotCuaDbContext db = new MotCuaDbContext();
-
-        // GET: Admin/Groups
+        
         public async Task<ActionResult> Index()
         {
-            return View(await _groupService.GetAll().ToListAsync());
+            var session = (UserSessionModel)Session[Constants.USER_SESSION];
+            var group = _groupService.GetById(session.Group);
+            if(group.GroupName.Trim().ToLower() == "admin")
+            {
+                ViewBag.ListDepartments = _departmentService.GetAll();
+                ViewBag.ListRoles = _roleService.GetAll().Distinct().ToList();
+                return View(await _groupService.GetAll().ToListAsync());
+            }
+            else
+            {
+                return Redirect("/Admin/Errors/Authorized");
+            }
         }
 
-        // GET: Admin/Groups/Details/5
-        public async Task<ActionResult> Details(int? id)
+        [HttpPost]
+        public ActionResult SetRole(int? id, GroupRoleViewModel groupRoleViewModel)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Group group = await db.Groups.FindAsync(id);
-            if (group == null)
+            IQueryable<Role> existRole = _roleService.GetAll().Where(x => x.GroupId == id);
+            _roleService.RemoveRange(existRole);
+            foreach (int item in groupRoleViewModel.DepartmentId)
             {
-                return HttpNotFound();
-            }
-            return View(group);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(FormCollection group)
-        {
-            if (ModelState.IsValid)
-            {
-                var groupName = group["GroupName"];
-                _groupService.Add(new Group
+                _roleService.Add(new Role
                 {
-                    GroupName = groupName
+                    GroupId = id.Value,
+                    Name = item.ToString()
                 });
-                return RedirectToAction("Index");
             }
-
-            return View(group);
-        }
-
-        // GET: Admin/Groups/Edit/5
-        public async Task<ActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Group group = await db.Groups.FindAsync(id);
-            if (group == null)
-            {
-                return HttpNotFound();
-            }
-            return View(group);
-        }
-
-        // POST: Admin/Groups/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "GroupId,GroupName")] Group group)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(group).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            return View(group);
-        }
-
-        // GET: Admin/Groups/Delete/5
-        public async Task<ActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Group group = await db.Groups.FindAsync(id);
-            if (group == null)
-            {
-                return HttpNotFound();
-            }
-            return View(group);
-        }
-
-        // POST: Admin/Groups/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
-            Group group = await db.Groups.FindAsync(id);
-            db.Groups.Remove(group);
-            await db.SaveChangesAsync();
+            TempData["Status"] = "Cài đặt quyền thành công!";
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateOrUpdate(FormCollection group)
         {
-            if (disposing)
+            if (ModelState.IsValid)
             {
-                db.Dispose();
+                string groupName = group["GroupName"];
+                int groupId = int.Parse(group["GroupId"]);
+                Group gr = _groupService.GetById(groupId);
+                if (groupId == 0)
+                {
+                    _groupService.Add(new Group
+                    {
+                        GroupName = groupName
+                    });
+                    TempData["Status"] = "Thêm thành công!";
+                }
+                else
+                {
+                    gr.GroupName = groupName;
+                    _groupService.Update(gr);
+                    TempData["Status"] = "Sửa thành công!";
+                }
+                return RedirectToAction("Index");
             }
-            base.Dispose(disposing);
+
+            return View(group);
+        }
+
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Group group = _groupService.GetById(id.Value);
+            if (group == null)
+            {
+                return HttpNotFound();
+            }
+            _groupService.Delete(group);
+            TempData["Status"] = "Xóa thành công!";
+            return RedirectToAction("Index");
         }
     }
 }

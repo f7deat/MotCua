@@ -12,7 +12,7 @@ using MotCua.Model.Data;
 
 namespace MotCua.Web.Areas.Admin.Controllers
 {
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
         private MotCuaDbContext db = new MotCuaDbContext();
 

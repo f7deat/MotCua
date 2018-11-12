@@ -1,4 +1,6 @@
-﻿using MotCua.Model;
+﻿using MotCua.Helper.Common;
+using MotCua.Helper.Session;
+using MotCua.Model;
 using MotCua.Repository;
 using System;
 using System.Collections.Generic;
@@ -6,6 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MotCua.Service
 {
@@ -37,12 +40,14 @@ namespace MotCua.Service
 
         public bool ChangeStatus(int id, int status)
         {
+            var session = (UserSessionModel)HttpContext.Current.Session[Constants.USER_SESSION];
             var request = _requestRepository.GetById(id);
             if (request.DateReceived == null)
             {
                 request.DateReceived = DateTime.Now;
             }
             request.Status = status;
+            request.Receiver = session.UserId;
             return _requestRepository.Save();
         }
 

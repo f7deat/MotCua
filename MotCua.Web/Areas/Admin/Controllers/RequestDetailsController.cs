@@ -8,29 +8,49 @@ using PagedList;
 using MotCua.Model;
 using MotCua.Web.Areas.Admin.Models;
 using MotCua.Helper;
+using MotCua.Helper.Session;
+using MotCua.Helper.Common;
 
 namespace MotCua.Web.Areas.Admin.Controllers
 {
-    [CustomAuthorize(Roles = "admin")]
-    public class RequestDetailsController : Controller
+    public class RequestDetailsController : BaseController
     {
         IRequestService _requestService;
         private readonly IAttachService _attachService;
         private IDepartmentService _departmentService;
-        public RequestDetailsController(IRequestService requestService, IAttachService attachService, IDepartmentService departmentService)
+        private IGroupService _groupService;
+        private IRoleService _roleService;
+        public RequestDetailsController(IRequestService requestService, IAttachService attachService, IDepartmentService departmentService, IGroupService groupService, IRoleService roleService)
         {
             _requestService = requestService;
             _attachService = attachService;
             _departmentService = departmentService;
+            _groupService = groupService;
+            _roleService = roleService;
         }
         // GET: Admin/RequestDetails
-        public ActionResult Index(int? page)
+        public ActionResult Index(int? page, int? id)
         {
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
-            ViewBag.ListDepartments = _departmentService.GetAll();
-            var model = _requestService.GetAll().OrderByDescending(x=>x.RequestDate).ToPagedList(pageNumber, pageSize);
-            return View(model);
+            var session = (UserSessionModel)Session[Constants.USER_SESSION];
+            var listRoles = _roleService.GetAll().Where(x => x.GroupId == session.Group).Select(x => x.Name);
+            var group = _groupService.GetById(session.Group);
+
+            if (listRoles.Contains(id.ToString()) || group.GroupName.Trim().ToLower() == "admin")
+            {
+                int pageSize = 10;
+                int pageNumber = (page ?? 1);
+                ViewBag.ListDepartments = _departmentService.GetAll();
+                var model = _requestService.GetAll().OrderByDescending(x => x.RequestDate).ToPagedList(pageNumber, pageSize);
+                if (id != null)
+                {
+                    model = _requestService.GetAll().Where(x => x.DepartmentId == id).OrderByDescending(x => x.RequestDate).ToPagedList(pageNumber, pageSize);
+                }
+                return View(model);
+            }
+            else
+            {
+                return Redirect("/Admin/Errors/Authorized");
+            }
         }
         public ActionResult ChangeStatus(int id, int status)
         {

@@ -188,6 +188,8 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CategoriesController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\DepartmentsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ErrorsController.cs" />
@@ -195,6 +197,7 @@
     <Compile Include="Areas\Admin\Controllers\RequestDetailsController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Areas\Admin\Models\AttachViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\GroupRoleViewModel.cs" />
     <Compile Include="Areas\Admin\Models\RequestDetailsViewModel.cs" />
     <Compile Include="Areas\Student\Controllers\DashboardsController.cs" />
     <Compile Include="Areas\Student\Controllers\RequestsController.cs" />
@@ -374,12 +377,15 @@
     <Content Include="Areas\Admin\Views\Users\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Groups\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Groups\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\Groups\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Groups\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\QuickStatic.cshtml" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Areas\Admin\Views\RequestDetails\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\Sidebar.cshtml" />
+    <Content Include="Areas\Admin\Views\Categories\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Categories\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Categories\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Categories\Index.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\controller\request.js" />
@@ -405,6 +411,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

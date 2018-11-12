@@ -2,11 +2,8 @@
 using MotCua.Repository;
 using MotCua.Service.Infrastructure;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MotCua.Service
 {
@@ -16,19 +13,19 @@ namespace MotCua.Service
     }
     public class GroupService : IGroupService
     {
-        IGroupRepository _groupRepository;
+        private IGroupRepository _groupRepository;
         public GroupService(IGroupRepository groupRepository)
         {
             _groupRepository = groupRepository;
         }
         public Group Add(Group user)
         {
-            throw new NotImplementedException();
+            return _groupRepository.Add(user);
         }
 
         public bool Delete(Group user)
         {
-            throw new NotImplementedException();
+            return _groupRepository.Delete(user);
         }
 
         public IQueryable<Group> FindBy(Expression<Func<Group, bool>> predicate)
@@ -36,16 +33,19 @@ namespace MotCua.Service
             throw new NotImplementedException();
         }
 
-        public IQueryable<Group> GetAll() => _groupRepository.GetAll();
+        public IQueryable<Group> GetAll()
+        {
+            return _groupRepository.GetAll();
+        }
 
         public Group GetById(int id)
         {
-            throw new NotImplementedException();
+            return _groupRepository.GetById(id);
         }
 
         public bool Update(Group user)
         {
-            throw new NotImplementedException();
+            return _groupRepository.Update(user);
         }
     }
 }

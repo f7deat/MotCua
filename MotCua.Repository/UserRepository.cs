@@ -19,10 +19,10 @@ namespace MotCua.Repository
         {
             var count = _dbContext.Users.Count(x => x.UserId == userId && x.Password == password);
             var user = GetById(userId);
+            var group = _dbContext.Groups.Find(user.GroupId);
             if (count > 0)
             {
-                var group = user.GroupId;
-                if(group == 1)
+                if(group.GroupName.Trim().ToLower() != "student")
                 {
                     return 1; // admin
                 }

@@ -8,7 +8,8 @@
     var received = MotCua.Helper.Common.RequestStatus.Received;
     var processing = MotCua.Helper.Common.RequestStatus.Processing;
     var success = MotCua.Helper.Common.RequestStatus.Success;
-    var outofdate = MotCua.Helper.Common.RequestStatus.OutOfDate;
+    //var outofdate = MotCua.Helper.Common.RequestStatus.OutOfDate;
+    var ListDepartments = (IEnumerable<MotCua.Model.Department>)ViewBag.ListDepartments;
 }
 
 <div class="row 2col">
@@ -89,6 +90,21 @@
                 </div>
             </div>
             <div class="grid-body no-border">
+                <form action="@Url.Action("Index", "Dashboards")" method="get">
+                    <div class="col-md-4 col-sm-4 form-group">
+                        <select class="form-control" name="DepartmentId">
+                            <option value="">-Chọn phòng ban</option>
+                            @foreach (var item in ListDepartments)
+                            {
+                                <option value="@item.DepartmentId">@item.DepartmentName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                        <button class="btn btn-success" type="submit"><i class="fa fa-search"></i> Lọc</button>
+                        <a class="btn btn-info" href="/Student/Dashboards"><i class="fa fa-ban"></i> Hủy</a>
+                    </div>
+                </form>
                 <table class="table table-bordered no-more-tables">
                     <thead>
                         <tr>
@@ -96,6 +112,7 @@
                             <th>Ngày gửi</th>
                             <th>Trạng thái</th>
                             <th>Tệp tin đính kèm</th>
+                            <th>Tác vụ</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -139,11 +156,12 @@
                                         </ul>
                                     </div>
                                 </td>
+                                <td><a href="#" class="btn btn-small btn-info"><i class="fa fa-folder"></i> Chi tiết</a></td>
                             </tr>
                         }
                     </tbody>
                 </table>
-                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, DepartmentId = ViewBag.DepartmentId }))
             </div>
         </div>
     </div>

@@ -9,8 +9,7 @@ using MotCua.Helper.Common;
 
 namespace MotCua.Web.Areas.Admin.Controllers
 {
-    [CustomAuthorize(Roles = "admin")]
-    public class DashboardController : Controller
+    public class DashboardController : BaseController
     {
         IRequestService _requestService;
         IDepartmentService _departmentService;

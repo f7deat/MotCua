@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace MotCua.Web.Areas.Admin.Controllers
 {
-    public class ErrorsController : Controller
+    public class ErrorsController : BaseController
     {
         // GET: Admin/Errors
         public ActionResult Index()

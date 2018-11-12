@@ -15,7 +15,7 @@ namespace MotCua.Helper
                 httpContext.Response.Redirect("/");
                 return false;
             }
-            if (Roles.Contains(session.Groups))
+            if (Roles.Contains(session.Group.ToString()))
             {
                 return true;
             }

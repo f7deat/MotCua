@@ -16,6 +16,7 @@ namespace MotCua.Model
         public DateTime? DateRequired { get; set; }
         public int? Status { get; set; }
         public int? CategoryId { get; set; }
+        public int? Receiver { get; set; }
 
         public virtual Department Department { get; set; }
         public virtual Category Category { get; set; }

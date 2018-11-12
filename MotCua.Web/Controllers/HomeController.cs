@@ -23,13 +23,13 @@ namespace MotCua.Web.Controllers
         [HttpPost]
         public ActionResult Index(User login)
         {
-            int state = _userService.Login(login.UserId, login.Password); var user = _userService.GetById(login.UserId);
+            int state = _userService.Login(login.UserId, login.Password);
+            var user = _userService.GetById(login.UserId);
             if (state == 1)
             {
                 var userSession = new UserSessionModel();
                 userSession.UserId = user.UserId;
-                // chưa làm phần lấy group. mặc định sẽ là admin
-                userSession.Groups = "admin";
+                userSession.Group = user.GroupId;
                 userSession.FullName = user.FullName;
                 userSession.Image = user.Image;
 
@@ -37,13 +37,11 @@ namespace MotCua.Web.Controllers
 
                 return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
             }
-            else
-                if (state == 2)
+            else if (state == 2)
             {
                 var userSession = new UserSessionModel();
                 userSession.UserId = user.UserId;
-                // chưa làm phần lấy group. mặc định sẽ là admin
-                userSession.Groups = "student";
+                userSession.Group = user.GroupId;
                 userSession.FullName = user.FullName;
                 userSession.Image = user.Image;
 

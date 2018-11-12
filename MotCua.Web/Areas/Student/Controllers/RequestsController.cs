@@ -3,6 +3,7 @@ using MotCua.Helper.Common;
 using MotCua.Helper.Session;
 using MotCua.Model;
 using MotCua.Service;
+using MotCua.Web.Areas.Admin.Controllers;
 using MotCua.Web.Areas.Student.Models;
 using System;
 using System.IO;
@@ -12,8 +13,7 @@ using System.Web.Mvc;
 
 namespace MotCua.Web.Areas.Student.Controllers
 {
-    [CustomAuthorize(Roles = "student")]
-    public class RequestsController : Controller
+    public class RequestsController : BaseController
     {
         private const string V = "Gửi yêu cầu thất bại!";
         private const string V1 = "Gửi yêu cầu thành công!";

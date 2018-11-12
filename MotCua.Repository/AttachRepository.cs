@@ -1,11 +1,6 @@
-﻿using MotCua.Repository.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MotCua.Model;
+﻿using MotCua.Model;
 using MotCua.Model.Data;
+using MotCua.Repository.Infrastructure;
 
 namespace MotCua.Repository
 {

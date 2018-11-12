@@ -11,22 +11,34 @@ using MotCua.Model;
 using MotCua.Model.Data;
 using MotCua.Service;
 using MotCua.Helper;
+using MotCua.Helper.Session;
+using MotCua.Helper.Common;
 
 namespace MotCua.Web.Areas.Admin.Controllers
 {
-    [CustomAuthorize(Roles = "admin")]
-    public class DepartmentsController : Controller
+    public class DepartmentsController : BaseController
     {
+        private IGroupService _groupService;
         private MotCuaDbContext db = new MotCuaDbContext();
         IDepartmentService _departmentService;
-        public DepartmentsController(IDepartmentService departmentService)
+        public DepartmentsController(IDepartmentService departmentService, IGroupService groupService)
         {
+            _groupService = groupService;
             _departmentService = departmentService;
         }
         // GET: Admin/Departments
         public async Task<ActionResult> Index()
         {
-            return View(await _departmentService.GetAll().ToListAsync());
+            var session = (UserSessionModel)Session[Constants.USER_SESSION];
+            var group = _groupService.GetById(session.Group);
+            if (group.GroupName.Trim().ToLower() == "admin")
+            {
+                return View(await _departmentService.GetAll().ToListAsync());
+            }
+            else
+            {
+                return Redirect("/Admin/Errors/Authorized");
+            }
         }
 
         [HttpPost]

@@ -5,27 +5,36 @@ using MotCua.Service;
 using MotCua.Helper.Session;
 using MotCua.Helper.Common;
 using PagedList;
+using MotCua.Web.Areas.Admin.Controllers;
 
 namespace MotCua.Web.Areas.Student.Controllers
 {
-    [CustomAuthorize(Roles = "student")]
-    public class DashboardsController : Controller
+    public class DashboardsController : BaseController
     {
         IRequestService _requestService;
-        public DashboardsController(IRequestService requestService)
+        private IDepartmentService _departmentService;
+        public DashboardsController(IRequestService requestService, IDepartmentService departmentService)
         {
             _requestService = requestService;
+            _departmentService = departmentService;
         }
-        // GET: Student/Dashboards
-        public ActionResult Index(int? page)
+
+        public ActionResult Index(int? page, int? DepartmentId)
         {
+            ViewBag.ListDepartments = _departmentService.GetAll();
             var session = (UserSessionModel)Session[Constants.USER_SESSION];
             ViewBag.TotalRequest = _requestService.GetAll().Where(x => x.UserId == session.UserId).Count();
             ViewBag.TotalRequestSuccess = _requestService.GetAll().Where(x => x.Status == RequestStatus.Success && x.UserId == session.UserId).Count();
             ViewBag.TotalRequestProcessing = _requestService.GetAll().Where(x => x.Status == RequestStatus.Processing && x.UserId == session.UserId).Count();
             int pageSize = 10;
             int pageNumber = (page ?? 1);
-            return View(_requestService.GetAll().Where(x=>x.UserId == session.UserId).OrderByDescending(x => x.RequestDate).ToPagedList(pageNumber, pageSize));
+            var model = _requestService.GetAll().Where(x => x.UserId == session.UserId).OrderByDescending(x => x.RequestDate).ToPagedList(pageNumber, pageSize);
+            if(DepartmentId != null)
+            {
+                model = _requestService.GetAll().Where(x => x.UserId == session.UserId && x.DepartmentId == DepartmentId).OrderByDescending(x => x.RequestDate).ToPagedList(pageNumber, pageSize);
+                ViewBag.DepartmentId = DepartmentId;
+            }
+            return View(model);
         }
     }
 }
