@@ -1,39 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
+﻿using MotCua.Helper.Common;
+using MotCua.Helper.Session;
 using MotCua.Model;
 using MotCua.Model.Data;
 using MotCua.Service;
-using MotCua.Helper;
-using MotCua.Helper.Session;
-using MotCua.Helper.Common;
+using PagedList;
+using System.Data.Entity;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using System.Linq;
 
 namespace MotCua.Web.Areas.Admin.Controllers
 {
     public class DepartmentsController : BaseController
     {
         private IGroupService _groupService;
+        private readonly IFacultyService _facultyService;
         private MotCuaDbContext db = new MotCuaDbContext();
-        IDepartmentService _departmentService;
-        public DepartmentsController(IDepartmentService departmentService, IGroupService groupService)
+        private IDepartmentService _departmentService;
+        public DepartmentsController(IDepartmentService departmentService, IGroupService groupService, IFacultyService facultyService)
         {
             _groupService = groupService;
             _departmentService = departmentService;
+            _facultyService = facultyService;
         }
-        // GET: Admin/Departments
-        public async Task<ActionResult> Index()
+
+        public ActionResult Index(int? page)
         {
-            var session = (UserSessionModel)Session[Constants.USER_SESSION];
-            var group = _groupService.GetById(session.Group);
+            UserSessionModel session = (UserSessionModel)Session[Constants.USER_SESSION];
+            Group group = _groupService.GetById(session.Group);
             if (group.GroupName.Trim().ToLower() == "admin")
             {
-                return View(await _departmentService.GetAll().ToListAsync());
+                int pageSize = 10;
+                int pageNumber = (page ?? 1);
+                return View(_departmentService.GetAll().OrderBy(x=>x.DepartmentName).ToPagedList(pageNumber, pageSize));
             }
             else
             {

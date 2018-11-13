@@ -1,8 +1,10 @@
-﻿@model IEnumerable<MotCua.Model.User>
+﻿@model PagedList.IPagedList<MotCua.Model.User>
+@using PagedList.Mvc;
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Người dùng";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var ListGroups = (IEnumerable<MotCua.Model.Group>)ViewBag.ListGroups;
 }
 
 
@@ -20,6 +22,21 @@
                 </div>
             </div>
             <div class="grid-body no-border">
+                <form action="@Url.Action("Index", "Users")" method="get">
+                    <div class="col-md-4 col-sm-4 form-group">
+                        <select class="form-control" name="DepartmentId">
+                            <option value="">- Chọn Nhóm Quyền -</option>
+                            @foreach (var item in ListGroups)
+                            {
+                                <option value="@item.GroupId">@item.GroupName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                        <button class="btn btn-success" type="submit"><i class="fa fa-search"></i> Lọc</button>
+                        <a class="btn btn-info" href="/Admin/Users"><i class="fa fa-ban"></i> Hủy</a>
+                    </div>
+                </form>
                 <table class="table table-bordered no-more-tables">
                     <thead>
                         <tr>
@@ -30,22 +47,22 @@
                                 </div>
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Faculty.FacultyName)
+                                Khoa
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Group.GroupName)
+                                Quyền
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.FullName)
+                                Họ tên
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.DateOfBirth)
+                                Ngày sinh
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Gender)
+                                Giới tính
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Status)
+                                Trạng thái
                             </th>
                             <th></th>
                         </tr>
@@ -77,25 +94,28 @@
                                     @(item.Gender ? "Nam" : "Nữ")
                                 </td>
                                 <td>
-                                    @if (item.Status == true)
-                                    {
-                                        <span class='label label-success'>Kích hoạt</span>
-                                    }
-                                    else if (item.Status == false)
-                                    {
-                                        <span class='label label-danger'>Đang chờ</span>
-                                    }
-                                </td>
+                                    <form action="/Admin/Users/ChangeStatus/@item.UserId" method="post">
+                                        @if (item.Status == true)
+                                        {
+                                            <button class='btn btn-success btn-small' type="submit">Kích hoạt</button>
+                                        }
+                                        else if (item.Status == false)
+                                        {
+                                            <button class='btn btn-danger btn-small' type="submit">Đang chờ</button>
+                                        }
+                                    </form>
+                                    </td>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.UserId }, new { @class="btn btn-small btn-info" }) 
-                                    @Html.ActionLink("Details", "Details", new { id = item.UserId }, new { @class = "btn btn-small btn-primary" }) 
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.UserId }, new { @class = "btn btn-small btn-danger" })
+                                    <a href="@Url.Action("Edit", "Users", new { id = item.UserId })" class="btn btn-small btn-info"><i class="fa fa-pencil"></i></a>
+                                    <a href="@Url.Action("Details", "Users", new { id = item.UserId })" class="btn btn-small btn-primary"><i class="fa fa-folder"></i></a>
+                                    <a href="@Url.Action("Delete", "Users", new { id = item.UserId })" class="btn btn-small btn-danger"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                         }
                     </tbody>
 
                 </table>
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
             </div>
         </div>
     </div>

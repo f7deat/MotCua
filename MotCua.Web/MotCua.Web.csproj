@@ -193,6 +193,7 @@
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\DepartmentsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ErrorsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FacultiesController.cs" />
     <Compile Include="Areas\Admin\Controllers\GroupsController.cs" />
     <Compile Include="Areas\Admin\Controllers\RequestDetailsController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
@@ -217,6 +218,7 @@
     <Content Include="Content\files\index.html" />
     <Content Include="Content\fonts\custom-set.dev.svg" />
     <Content Include="Content\fonts\custom-set.svg" />
+    <Content Include="Content\images\cover_pic.png" />
     <Content Include="Content\images\noimage.jpg" />
     <Content Include="Content\images\profiles\index.html" />
     <Content Include="Content\images\profiles\noimage.jpg" />
@@ -356,7 +358,6 @@
     <Content Include="Content\plugins\font-awesome\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\plugins\font-awesome\fonts\fontawesome-webfont.woff2" />
     <Content Include="Content\plugins\font-awesome\fonts\FontAwesome.otf" />
-    <Content Include="Areas\Admin\Views\Departments\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Departments\Index.cshtml" />
     <Content Include="Areas\Student\Views\web.config" />
     <Content Include="Areas\Student\Views\Shared\_Layout.cshtml" />
@@ -386,6 +387,7 @@
     <Content Include="Areas\Admin\Views\Categories\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Categories\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Categories\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Faculties\ListFaculties.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\controller\request.js" />

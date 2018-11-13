@@ -3,6 +3,7 @@ using MotCua.Repository;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using MotCua.Helper.Common;
 
 namespace MotCua.Service
 {
@@ -26,7 +27,7 @@ namespace MotCua.Service
         public User Add(User user)
         {
             user.Status = false;
-            user.GroupId = 2;
+            user.GroupId = GroupId.Student;
             user.CreatedDate = DateTime.Now;
             return userRepository.Add(user);
         }

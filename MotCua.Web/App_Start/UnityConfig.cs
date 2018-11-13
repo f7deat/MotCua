@@ -55,6 +55,8 @@ namespace MotCua.Web
             container.RegisterType<IAttachService, AttachService>();
             container.RegisterType<IRoleRepository, RoleRepository>();
             container.RegisterType<IRoleService, RoleService>();
+            container.RegisterType<IFacultyRepository, FacultyRepository>();
+            container.RegisterType<IFacultyService, FacultyService>();
         }
     }
 }

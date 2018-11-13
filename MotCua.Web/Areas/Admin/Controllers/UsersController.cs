@@ -9,28 +9,51 @@ using System.Web;
 using System.Web.Mvc;
 using MotCua.Model;
 using MotCua.Model.Data;
+using MotCua.Service;
+using PagedList;
+using MotCua.Helper.Session;
+using MotCua.Helper.Common;
 
 namespace MotCua.Web.Areas.Admin.Controllers
 {
     public class UsersController : BaseController
     {
+        private IGroupService _groupService;
+        IUserService _userService;
         private MotCuaDbContext db = new MotCuaDbContext();
 
-        // GET: Admin/Users
-        public async Task<ActionResult> Index()
+        public UsersController(IGroupService groupService, IUserService userService)
         {
-            var users = db.Users.Include(u => u.Faculty).Include(u => u.Group);
-            return View(await users.ToListAsync());
+            _groupService = groupService;
+            _userService = userService;
+        }
+        // GET: Admin/Users
+        public ActionResult Index(int? page)
+        {
+            var session = (UserSessionModel)Session[Constants.USER_SESSION];
+            var group = _groupService.GetById(session.Group);
+
+            if (group.GroupName.Trim().ToLower() == "admin")
+            {
+                int pageSize = 10;
+                int pageNumber = (page ?? 1);
+                ViewBag.ListGroups = _groupService.GetAll();
+                return View(_userService.GetAll().OrderBy(x => x.CreatedDate).ToPagedList(pageNumber, pageSize));
+            }
+            else
+            {
+                return Redirect("/Admin/Errors/Authorized");
+            }
         }
 
         // GET: Admin/Users/Details/5
-        public async Task<ActionResult> Details(int? id)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = await db.Users.FindAsync(id);
+            User user = _userService.GetById(id.Value);
             if (user == null)
             {
                 return HttpNotFound();
@@ -100,39 +123,33 @@ namespace MotCua.Web.Areas.Admin.Controllers
             return View(user);
         }
 
-        // GET: Admin/Users/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        [HttpPost]
+        public ActionResult ChangeStatus(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = await db.Users.FindAsync(id);
+            var user = _userService.GetById(id.Value);
+            user.Status = !user.Status;
+            _userService.Update(user);
+            return RedirectToAction("Index");
+        }
+
+        // GET: Admin/Users/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            User user = _userService.GetById(id.Value);
             if (user == null)
             {
                 return HttpNotFound();
             }
+            _userService.Delete(user);
             return View(user);
-        }
-
-        // POST: Admin/Users/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
-            User user = await db.Users.FindAsync(id);
-            db.Users.Remove(user);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

@@ -1,12 +1,13 @@
-﻿@model IEnumerable<MotCua.Model.Department>
+﻿@model PagedList.IPagedList<MotCua.Model.Department>
+@using PagedList.Mvc;
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Phòng Ban";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
         <div class="grid simple ">
             <div class="grid-title no-border">
                 <h4>Phòng - Ban</h4>
@@ -18,6 +19,7 @@
                 </div>
             </div>
             <div class="grid-body no-border">
+                <div class="alert alert-info">Danh sách phòng ban danh mục bên trái.</div>
                 <p>
                     <button class="btn btn-success" data-toggle="modal" data-target="#myModal" data-whatever="0">Thêm mới</button>
                 </p>
@@ -25,7 +27,6 @@
                     <thead>
                         <tr>
                             <th>Tên phòng ban</th>
-                            <th>Mô tả</th>
                             <th>Tác vụ</th>
                         </tr>
                     </thead>
@@ -37,20 +38,23 @@
                                     @Html.DisplayFor(modelItem => item.DepartmentName)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Description)
-                                </td>
-                                <td>
                                     <button class="btn btn-info btn-small" data-toggle="modal" data-target="#myModal" data-whatever="@item.DepartmentId" data-departmentname="@item.DepartmentName" data-description="@item.Description"><i class="fa fa-pencil"></i></button>
-                                    @*<a href="@Url.Action("Edit", "Departments", new { id = item.DepartmentId })" class="btn btn-info btn-small"><i class="fa fa-pencil"></i></a>*@
+
                                     <a href="@Url.Action("Delete", "Departments", new { id = item.DepartmentId })" class="btn btn-danger btn-small"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
             </div>
         </div>
     </div>
+
+    @{
+        Html.RenderAction("ListFaculties", "Faculties", null);
+    }
+
 </div>
 
 <!-- Modal -->
@@ -99,6 +103,21 @@
                 modal.find('#Description').val(description);
             }
             modal.find('#DepartmentId').val(recipient);
+        });
+    </script>
+    <script>
+        $('#myModal1').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var recipient1 = button.data('whatever1');
+            var departmentName1 = button.data('departmentname1');
+            var modal = $(this);
+            if (departmentName1 === "") {
+
+            }
+            else {
+                modal.find('#FacultyName').val(departmentName1);
+            }
+            modal.find('#FacultyId').val(recipient1);
         });
     </script>
 }

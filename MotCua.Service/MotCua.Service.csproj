@@ -45,6 +45,7 @@
     <Compile Include="AttachService.cs" />
     <Compile Include="CategoryService.cs" />
     <Compile Include="DepartmentService.cs" />
+    <Compile Include="FacultyService.cs" />
     <Compile Include="GroupService.cs" />
     <Compile Include="Infrastructure\IService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

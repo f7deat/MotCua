@@ -1,6 +1,7 @@
 ﻿@model MotCua.Model.User
 @{
     Layout = null;
+    var ListFaculties = (IEnumerable<MotCua.Model.Faculty>)ViewBag.ListFaculties;
 }
 
 <!DOCTYPE html>
@@ -17,6 +18,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="~/Content/animate.min.css" rel="stylesheet" />
     <!-- END PLUGIN CSS -->
+    <link href="~/Content/plugins/jquery-notifications/css/messenger.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/jquery-notifications/css/messenger-theme-flat.min.css" rel="stylesheet" />
     <!-- BEGIN CORE CSS FRAMEWORK -->
     <link href="~/Content/webarch.css" rel="stylesheet" />
     <!-- END CORE CSS FRAMEWORK -->
@@ -39,11 +42,10 @@
                 <div class="tiles grey p-t-20 p-b-20 no-margin text-black tab-content">
                     <div role="tabpanel" class="tab-pane active" id="tab_login">
                         @TempData["RegisterSuccess"]
-                        @ViewBag.Error
                         <form class="animated fadeIn validate" method="post" action="/Home/Index">
                             <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
                                 <div class="col-md-6 col-sm-6">
-                                    <input class="form-control" id="login_username" name="UserId" placeholder="ID" required>
+                                    <input class="form-control" id="login_username" name="UserId" placeholder="ID" type="number" required>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <input class="form-control" id="login_pass" name="Password" placeholder="Mật khẩu" type="password" required>
@@ -66,44 +68,62 @@
                         </form>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="tab_register">
-                        <form class="animated fadeIn validate" id="" action="/Home/Register" method="post">
+                        <form class="animated fadeIn" action="/Home/Register" method="post">
                             <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
                                 <div class="col-md-12">
-                                    <input class="form-control" id="ID" type="text" disabled value="ID của bạn: @ViewBag.ID">
+                                    <input class="form-control" id="ID" type="text" disabled value="ID của bạn: @(ViewBag.ID + 1)">
                                 </div>
                             </div>
                             <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
                                 <div class="col-md-6 col-sm-6">
+                                    <label class="control-label">Họ và tên: </label>
                                     <input class="form-control" id="reg_username" name="FullName" placeholder="Họ và tên" type="text" required>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
+                                    <label class="control-label">Mật khẩu: </label>
                                     <input class="form-control" id="reg_pass" name="Password" placeholder="Mật khẩu" type="password" required>
                                 </div>
                             </div>
                             <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
                                 <div class="col-md-12">
-                                    <input class="form-control" id="reg_mail" name="Address" placeholder="Địa chỉ" type="text" required>
+                                    <label class="control-label">Địa chỉ: </label>
+                                    <input class="form-control" id="reg_address" name="Address" placeholder="Địa chỉ" type="text" required>
                                 </div>
                             </div>
                             <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
                                 <div class="col-md-6 col-sm-6">
-                                    <input class="form-control" id="reg_first_Name" name="Email" placeholder="Email" type="email" required>
+                                    <label class="control-label">Email: </label>
+                                    <input class="form-control" id="reg_email" name="Email" placeholder="Email" type="email" required>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
-                                    <input class="form-control" id="reg_first_Name" name="PhoneNumber" placeholder="Số điện thoại" type="tel" required>
+                                    <label class="control-label">Số điện thoại: </label>
+                                    <input class="form-control" id="reg_phone_number" name="PhoneNumber" placeholder="Số điện thoại" type="tel" required>
                                 </div>
                             </div>
                             <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
-                                <div class="col-md-12">
-                                    <input class="form-control" id="reg_email" name="DateOfBirth" type="date" required>
+                                <div class="col-md-6 col-sm-6">
+                                    <label class="control-label">Ngày sinh: </label>
+                                    <input class="form-control" id="reg_date" name="DateOfBirth" type="date" required>
                                 </div>
-                            </div>
-                            <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
-                                <div class="col-md-12">
+
+                                <div class="col-md-6 col-sm-6">
+                                    <label class="control-label">Giới tính: </label>
                                     <select class="form-control" name="Gender">
                                         <option value="">--Chọn giới tính--</option>
                                         <option value="true">Nam</option>
                                         <option value="false">Nữ</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+                                <div class="col-md-12">
+                                    <label class="control-label">Khoa: </label>
+                                    <select class="form-control" name="FacultyId">
+                                        <option value="">--Chọn Khoa--</option>
+                                        @foreach (var item in ListFaculties)
+                                        {
+                                            <option value="@item.FacultyId">@item.FacultyName</option>
+                                        }
                                     </select>
                                 </div>
                             </div>
@@ -124,9 +144,14 @@
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Content/plugins/jquery-numberAnimate/jquery.animateNumbers.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Content/plugins/jquery-notifications/js/messenger.min.js"></script>
+    <script src="~/Content/plugins/jquery-notifications/js/messenger-theme-flat.min.js"></script>
     <!-- END CORE JS DEPENDECENCIES-->
     <!-- BEGIN CORE TEMPLATE JS -->
     <script src="~/Content/js/webarch.js"></script>
     <!-- END CORE TEMPLATE JS -->
+    <script>
+        Messenger().post("@TempData["Status"]");
+    </script>
 </body>
 </html>

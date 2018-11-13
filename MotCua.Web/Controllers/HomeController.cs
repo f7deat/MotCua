@@ -10,12 +10,15 @@ namespace MotCua.Web.Controllers
     public class HomeController : Controller
     {
         private IUserService _userService;
-        public HomeController(IUserService userService)
+        private readonly IFacultyService _facultyService;
+        public HomeController(IUserService userService, IFacultyService facultyService)
         {
             _userService = userService;
+            _facultyService = facultyService;
         }
         public ActionResult Index()
         {
+            ViewBag.ListFaculties = _facultyService.GetAll().ToList();
             ViewBag.ID = _userService.GetAll().OrderByDescending(x=>x.UserId).Select(x=>x.UserId).FirstOrDefault();
             return View();
         }
@@ -23,15 +26,18 @@ namespace MotCua.Web.Controllers
         [HttpPost]
         public ActionResult Index(User login)
         {
+            ViewBag.ID = _userService.GetAll().OrderByDescending(x => x.UserId).Select(x => x.UserId).FirstOrDefault();
             int state = _userService.Login(login.UserId, login.Password);
-            var user = _userService.GetById(login.UserId);
             if (state == 1)
             {
-                var userSession = new UserSessionModel();
-                userSession.UserId = user.UserId;
-                userSession.Group = user.GroupId;
-                userSession.FullName = user.FullName;
-                userSession.Image = user.Image;
+                var user = _userService.GetById(login.UserId);
+                var userSession = new UserSessionModel
+                {
+                    UserId = user.UserId,
+                    Group = user.GroupId,
+                    FullName = user.FullName,
+                    Image = user.Image
+                };
 
                 Session.Add(Constants.USER_SESSION, userSession);
 
@@ -39,11 +45,14 @@ namespace MotCua.Web.Controllers
             }
             else if (state == 2)
             {
-                var userSession = new UserSessionModel();
-                userSession.UserId = user.UserId;
-                userSession.Group = user.GroupId;
-                userSession.FullName = user.FullName;
-                userSession.Image = user.Image;
+                var user = _userService.GetById(login.UserId);
+                var userSession = new UserSessionModel
+                {
+                    UserId = user.UserId,
+                    Group = user.GroupId,
+                    FullName = user.FullName,
+                    Image = user.Image
+                };
 
                 Session.Add(Constants.USER_SESSION, userSession);
                 return RedirectToAction("Index", "Dashboards", new { area = "Student" });
@@ -51,12 +60,13 @@ namespace MotCua.Web.Controllers
             else
             if(state == -2)
             {
-                ViewBag.Error = "Tài khoản của bạn đang chờ để kích hoạt!";
+                TempData["Status"] = "Tài khoản của bạn đang chờ để kích hoạt!";
             }
             else
             {
-                ViewBag.Error = "Đăng nhập không thành công!";
+                TempData["Status"] = "Đăng nhập không thành công!";
             }
+            ViewBag.ListFaculties = _facultyService.GetAll().ToList();
             return View();
         }
 
@@ -64,7 +74,7 @@ namespace MotCua.Web.Controllers
         public ActionResult Register(User user)
         {
             _userService.Add(user);
-            TempData["RegisterSuccess"] = "Đăng ký thành công!";
+            TempData["Status"] = "Đăng ký thành công!";
             return Redirect("/");
         }
     }
