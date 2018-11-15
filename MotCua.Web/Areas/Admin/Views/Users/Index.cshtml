@@ -104,7 +104,7 @@
                                             <button class='btn btn-danger btn-small' type="submit">Đang chờ</button>
                                         }
                                     </form>
-                                    </td>
+                                </td>
                                 <td>
                                     <a href="@Url.Action("Edit", "Users", new { id = item.UserId })" class="btn btn-small btn-info"><i class="fa fa-pencil"></i></a>
                                     <a href="@Url.Action("Details", "Users", new { id = item.UserId })" class="btn btn-small btn-primary"><i class="fa fa-folder"></i></a>
@@ -121,3 +121,22 @@
     </div>
 </div>
 
+<div class="body-content"></div>
+@section scripts {
+
+    <script>
+        $('.btn-info').click(function (e) {
+    var a_href = $(this).attr('href'); /* Lấy giá trị của thuộc tính href */
+    e.preventDefault(); /* Không thực hiện action mặc định */
+    $.ajax({ /* Gửi request lên server */
+        url: a_href, /* Nội dung trong Delete.cshtml cụ thể là deleteModal div được server trả về */
+        type: 'GET',
+        contentType: 'application/json; charset=utf-8',
+        success: function (data) { /* Sau khi nhận được giá */
+            $('.body-content').prepend(data); /* body-content div (định nghĩa trong _Layout.cshtml) sẽ thêm deleteModal div vào dưới cùng */
+            $('#deleteModal').modal('show'); /* Hiển thị deleteModal div dưới kiểu modal */
+        }
+    });
+});
+    </script>
+}
