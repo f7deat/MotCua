@@ -20,12 +20,14 @@ namespace MotCua.Web.Areas.Admin.Controllers
     {
         private IGroupService _groupService;
         IUserService _userService;
+        IFacultyService _facultyService;
         private MotCuaDbContext db = new MotCuaDbContext();
 
-        public UsersController(IGroupService groupService, IUserService userService)
+        public UsersController(IGroupService groupService, IUserService userService, IFacultyService facultyService)
         {
             _groupService = groupService;
             _userService = userService;
+            _facultyService = facultyService;
         }
         // GET: Admin/Users
         public ActionResult Index(int? page)
@@ -64,8 +66,8 @@ namespace MotCua.Web.Areas.Admin.Controllers
         // GET: Admin/Users/Create
         public ActionResult Create()
         {
-            ViewBag.FacultyId = new SelectList(db.Faculties, "FacultyId", "FacultyName");
-            ViewBag.GroupId = new SelectList(db.Groups, "GroupId", "GroupName");
+            ViewBag.FacultyId = new SelectList(_facultyService.GetAll(), "FacultyId", "FacultyName");
+            ViewBag.GroupId = new SelectList(_groupService.GetAll(), "GroupId", "GroupName");
             return View();
         }
 
@@ -83,39 +85,35 @@ namespace MotCua.Web.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.FacultyId = new SelectList(db.Faculties, "FacultyId", "FacultyName", user.FacultyId);
-            ViewBag.GroupId = new SelectList(db.Groups, "GroupId", "GroupName", user.GroupId);
+            ViewBag.FacultyId = new SelectList(_facultyService.GetAll(), "FacultyId", "FacultyName", user.FacultyId);
+            ViewBag.GroupId = new SelectList(_groupService.GetAll(), "GroupId", "GroupName", user.GroupId);
             return View(user);
         }
 
         // GET: Admin/Users/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = await db.Users.FindAsync(id);
+            User user = _userService.GetById(id.Value);
             if (user == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.FacultyId = new SelectList(db.Faculties, "FacultyId", "FacultyName", user.FacultyId);
-            ViewBag.GroupId = new SelectList(db.Groups, "GroupId", "GroupName", user.GroupId);
+            ViewBag.FacultyId = new SelectList(_facultyService.GetAll(), "FacultyId", "FacultyName", user.FacultyId);
+            ViewBag.GroupId = new SelectList(_groupService.GetAll(), "GroupId", "GroupName", user.GroupId);
             return View(user);
         }
-
-        // POST: Admin/Users/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "UserId,Password,FacultyId,GroupId,FullName,DateOfBirth,Gender,Address,Email,PhoneNumber,CreatedDate,Image,Status")] User user)
+        public ActionResult Edit(User user)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                _userService.Update(user);
                 return RedirectToAction("Index");
             }
             ViewBag.FacultyId = new SelectList(db.Faculties, "FacultyId", "FacultyName", user.FacultyId);
