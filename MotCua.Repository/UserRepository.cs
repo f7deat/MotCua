@@ -8,6 +8,7 @@ namespace MotCua.Repository
     public interface IUserRepository : IRepository<User>
     {
         int Login(int userId, string password);
+        void Save();
     }
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
@@ -38,6 +39,11 @@ namespace MotCua.Repository
             }
             else
                 return -1;
+        }
+
+        public void Save()
+        {
+            _dbContext.SaveChanges();
         }
     }
 }

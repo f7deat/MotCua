@@ -21,13 +21,15 @@ namespace MotCua.Web.Areas.Admin.Controllers
         private IGroupService _groupService;
         IUserService _userService;
         IFacultyService _facultyService;
+        IRequestService _requestService;
         private MotCuaDbContext db = new MotCuaDbContext();
 
-        public UsersController(IGroupService groupService, IUserService userService, IFacultyService facultyService)
+        public UsersController(IGroupService groupService, IUserService userService, IFacultyService facultyService, IRequestService requestService)
         {
             _groupService = groupService;
             _userService = userService;
             _facultyService = facultyService;
+            _requestService = requestService;
         }
         // GET: Admin/Users
         public ActionResult Index(int? page)
@@ -55,6 +57,7 @@ namespace MotCua.Web.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            ViewBag.TotalRequest = _requestService.GetAll().Where(x => x.UserId == id).Count();
             User user = _userService.GetById(id.Value);
             if (user == null)
             {
@@ -116,8 +119,8 @@ namespace MotCua.Web.Areas.Admin.Controllers
                 _userService.Update(user);
                 return RedirectToAction("Index");
             }
-            ViewBag.FacultyId = new SelectList(db.Faculties, "FacultyId", "FacultyName", user.FacultyId);
-            ViewBag.GroupId = new SelectList(db.Groups, "GroupId", "GroupName", user.GroupId);
+            ViewBag.FacultyId = new SelectList(_facultyService.GetAll(), "FacultyId", "FacultyName", user.FacultyId);
+            ViewBag.GroupId = new SelectList(_groupService.GetAll(), "GroupId", "GroupName", user.GroupId);
             return View(user);
         }
 

@@ -1,0 +1,99 @@
+﻿@model MotCua.Model.User
+
+@{
+    ViewBag.Title = "Hồ sơ";
+    Layout = null;
+}
+
+<div class="modal fade" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">Chỉnh sửa</h4>
+            </div>
+            @using (Html.BeginForm("Edit", "Profile", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FacultyId, "Khoa", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("FacultyId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.FacultyId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                        @Html.HiddenFor(model => model.GroupId)
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <input type="date" name="DateOfBirth" value="@(Model.DateOfBirth!=null ? Model.DateOfBirth.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd"))" class="form-control" />
+                            @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                <input type="radio" name="Gender" value="True" /> Nam
+                                <input type="radio" name="Gender" value="False" /> Nữ
+                                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.UserId)
+                    @Html.HiddenFor(model => model.CreatedDate)
+                    @Html.HiddenFor(model => model.Password)
+                    @Html.HiddenFor(model => model.Status)
+                    @Html.HiddenFor(model => model.Image)
+                    <div class="form-actions no-color text-center">
+                        <input type="submit" value="Lưu" class="btn btn-primary" />
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                    </div>
+                </div><!-- /.modal-footer -->
+            }
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+

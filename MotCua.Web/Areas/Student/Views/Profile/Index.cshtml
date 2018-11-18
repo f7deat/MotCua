@@ -1,8 +1,7 @@
 ﻿@model MotCua.Model.User
-
 @{
-    ViewBag.Title = "Hồ sơ thành viên";
-    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Hồ sơ cá nhân";
+    Layout = "~/Areas/Student/Views/Shared/_Layout.cshtml";
 }
 
 <div class="row">
@@ -12,8 +11,8 @@
                 <div class="overlayer bottom-right">
                     <div class="overlayer-wrapper">
                         <div class="padding-10 hidden-xs">
-                            <a href="/Admin/Users/Edit/@Model.UserId" class="btn btn-primary btn-small" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;&nbsp;Chỉnh sửa</a>
-                            <button type="button" class="btn btn-warning btn-small"><i class="fa fa-lock"></i> Đổi mật khẩu</button>
+                            <a href="/Student/Profile/Edit/@Model.UserId" class="btn btn-primary btn-small" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;&nbsp;Chỉnh sửa</a>
+                            <a href="/Student/Profile/ChangePassword" class="btn btn-warning btn-small" id="btnChangePwd"><i class="fa fa-lock"></i> Đổi mật khẩu</a>
                         </div>
                     </div>
                 </div>
@@ -64,17 +63,39 @@
 
     <script>
         $('#btnEdit').click(function (e) {
-    var a_href = $(this).attr('href'); /* Lấy giá trị của thuộc tính href */
-    e.preventDefault(); /* Không thực hiện action mặc định */
-    $.ajax({ /* Gửi request lên server */
-        url: a_href, /* Nội dung trong Delete.cshtml cụ thể là deleteModal div được server trả về */
-        type: 'GET',
-        contentType: 'application/json; charset=utf-8',
-        success: function (data) { /* Sau khi nhận được giá */
-            $('.body-content').prepend(data); /* body-content div (định nghĩa trong _Layout.cshtml) sẽ thêm deleteModal div vào dưới cùng */
-            $('#deleteModal').modal('show'); /* Hiển thị deleteModal div dưới kiểu modal */
-        }
-    });
-});
+            var a_href = $(this).attr('href'); /* Lấy giá trị của thuộc tính href */
+            e.preventDefault(); /* Không thực hiện action mặc định */
+            $.ajax({ /* Gửi request lên server */
+                url: a_href, /* Nội dung trong Delete.cshtml cụ thể là deleteModal div được server trả về */
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) { /* Sau khi nhận được giá */
+                    $('.body-content').prepend(data); /* body-content div (định nghĩa trong _Layout.cshtml) sẽ thêm deleteModal div vào dưới cùng */
+                    $('#deleteModal').modal('show'); /* Hiển thị deleteModal div dưới kiểu modal */
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $('#btnChangePwd').click(function (e) {
+            var a_href = $(this).attr('href'); /* Lấy giá trị của thuộc tính href */
+            e.preventDefault(); /* Không thực hiện action mặc định */
+            $.ajax({ /* Gửi request lên server */
+                url: a_href, /* Nội dung trong Delete.cshtml cụ thể là deleteModal div được server trả về */
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) { /* Sau khi nhận được giá */
+                    $('.body-content').prepend(data); /* body-content div (định nghĩa trong _Layout.cshtml) sẽ thêm deleteModal div vào dưới cùng */
+                    $('#deleteModal').modal('show'); /* Hiển thị deleteModal div dưới kiểu modal */
+                }
+            });
+        });
+    </script>
+    <script src="~/Content/plugins/jquery-notifications/js/messenger.min.js"></script>
+    <script src="~/Content/plugins/jquery-notifications/js/messenger-theme-flat.min.js"></script>
+    <script>
+        Messenger().post("@TempData["Status"]");
     </script>
 }
+

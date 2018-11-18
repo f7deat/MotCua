@@ -16,6 +16,7 @@ namespace MotCua.Service
         IQueryable<User> GetAll();
         User GetById(int id);
         int Login(int userId, string password);
+        void Save();
     }
     public class UserService : IUserService
     {
@@ -29,6 +30,7 @@ namespace MotCua.Service
             user.Status = false;
             user.GroupId = GroupId.Student;
             user.CreatedDate = DateTime.Now;
+            user.Image = "noimage.jpg";
             return userRepository.Add(user);
         }
 
@@ -55,6 +57,11 @@ namespace MotCua.Service
         public int Login(int userId, string password)
         {
             return userRepository.Login(userId, password);
+        }
+
+        public void Save()
+        {
+            userRepository.Save();
         }
 
         public bool Update(User user)

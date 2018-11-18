@@ -201,7 +201,9 @@
     <Compile Include="Areas\Admin\Models\GroupRoleViewModel.cs" />
     <Compile Include="Areas\Admin\Models\RequestDetailsViewModel.cs" />
     <Compile Include="Areas\Student\Controllers\DashboardsController.cs" />
+    <Compile Include="Areas\Student\Controllers\ProfileController.cs" />
     <Compile Include="Areas\Student\Controllers\RequestsController.cs" />
+    <Compile Include="Areas\Student\Models\ChangePasswordViewModel.cs" />
     <Compile Include="Areas\Student\Models\RequestViewModel.cs" />
     <Compile Include="Areas\Student\StudentAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -388,6 +390,9 @@
     <Content Include="Areas\Admin\Views\Categories\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Categories\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Faculties\ListFaculties.cshtml" />
+    <Content Include="Areas\Student\Views\Profile\Index.cshtml" />
+    <Content Include="Areas\Student\Views\Profile\ChangePassword.cshtml" />
+    <Content Include="Areas\Student\Views\Profile\Edit.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\controller\request.js" />
