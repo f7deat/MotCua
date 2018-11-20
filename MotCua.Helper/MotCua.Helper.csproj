@@ -68,6 +68,7 @@
     <Compile Include="Common\RequestStatus.cs" />
     <Compile Include="CustomAuthorize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SendEmail.cs" />
     <Compile Include="Session\UserSessionModel.cs" />
   </ItemGroup>
   <ItemGroup>

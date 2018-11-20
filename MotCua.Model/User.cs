@@ -25,6 +25,7 @@ namespace MotCua.Model
         [MaxLength(200)]
         public string Image { get; set; }
         public bool Status { get; set; }
+        public int? Token { get; set; }
 
         public virtual Group Group { get; set; }
         public virtual Faculty Faculty { get; set; }

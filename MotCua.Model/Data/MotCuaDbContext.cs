@@ -16,6 +16,7 @@ namespace MotCua.Model.Data
         public DbSet<Faculty> Faculties { get; set; }
         public DbSet<Request> Requests { get; set; }
         public DbSet<Attach> Attaches { get; set; }
+        public DbSet<Setting> Settings { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
