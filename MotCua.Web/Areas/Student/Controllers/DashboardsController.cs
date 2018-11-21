@@ -26,6 +26,7 @@ namespace MotCua.Web.Areas.Student.Controllers
             ViewBag.TotalRequest = _requestService.GetAll().Where(x => x.UserId == session.UserId).Count();
             ViewBag.TotalRequestSuccess = _requestService.GetAll().Where(x => x.Status == RequestStatus.Success && x.UserId == session.UserId).Count();
             ViewBag.TotalRequestProcessing = _requestService.GetAll().Where(x => x.Status == RequestStatus.Processing && x.UserId == session.UserId).Count();
+            ViewBag.TotalRequestOutOfDate = _requestService.GetAll().Where(x => x.Status == RequestStatus.OutOfDate).Count();
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             var model = _requestService.GetAll().Where(x => x.UserId == session.UserId).OrderByDescending(x => x.RequestDate).ToPagedList(pageNumber, pageSize);

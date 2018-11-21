@@ -29,6 +29,7 @@ namespace MotCua.Web.Areas.Admin.Controllers
             ViewBag.TotalRequest = _requestService.GetAll().Count();
             ViewBag.TotalRequestSuccess = _requestService.GetAll().Where(x=>x.Status == RequestStatus.Success).Count();
             ViewBag.TotalRequestProcessing = _requestService.GetAll().Where(x => x.Status == RequestStatus.Processing).Count();
+            ViewBag.TotalRequestOutOfDate = _requestService.GetAll().Where(x => x.Status == RequestStatus.OutOfDate).Count();
             return PartialView();
         }
         [ChildActionOnly]
